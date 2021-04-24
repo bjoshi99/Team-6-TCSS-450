@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="edu.uw.team6tcss450.ui.auth.signin.SignInFragment"
-        android:label="fragment_sign_in"
+        android:label="@string/title_signin"
         tools:layout="@layout/fragment_sign_in" >
         <action
             android:id="@+id/action_signInFragment_to_registerFragment"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="edu.uw.team6tcss450.ui.auth.register.RegisterFragment"
-        android:label="fragment_register"
+        android:label="@string/title_register"
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_signInFragment"
@@ -41,6 +41,9 @@
         tools:layout="@layout/activity_main" >
         <argument
             android:name="jwt"
+            app:argType="string" />
+        <argument
+            android:name="email"
             app:argType="string" />
     </activity>
 </navigation>

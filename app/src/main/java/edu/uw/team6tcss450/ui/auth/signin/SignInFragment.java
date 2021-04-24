@@ -1,6 +1,10 @@
 package edu.uw.team6tcss450.ui.auth.signin;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,37 +12,31 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
+import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentArgs;
+import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentDirections;
+import edu.uw.team6tcss450.ui.auth.signin.SignInViewModel;
+import edu.uw.team6tcss450.utils.PasswordValidator;
+
+import static edu.uw.team6tcss450.utils.PasswordValidator.*;
 
 /**
- * create an instance of this fragment.
+ * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
 
-    /**
-     * Binding object of this class
-     */
     private FragmentSignInBinding binding;
-
     private SignInViewModel mSignInModel;
 
-    /**
-     * String variable to store user entered email address
-     */
-    private String email;
+    private PasswordValidator mEmailValidator = checkPwdLength(2)
+            .and(checkExcludeWhiteSpace())
+            .and(checkPwdSpecialChar("@"));
+
+    private PasswordValidator mPassWordValidator = checkPwdLength(1)
+            .and(checkExcludeWhiteSpace());
 
     public SignInFragment() {
         // Required empty public constructor
@@ -54,8 +52,8 @@ public class SignInFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        binding = FragmentSignInBinding.inflate(inflater, container, false);
+        binding = FragmentSignInBinding.inflate(inflater);
+        // Inflate the layout for this fragment
         return binding.getRoot();
     }
 
@@ -63,72 +61,38 @@ public class SignInFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.buttonRegister.setOnClickListener(button ->
+                Navigation.findNavController(getView()).navigate(
+                        SignInFragmentDirections.actionSignInFragmentToRegisterFragment()
+                ));
 
-        //sets the onclick event for register button
-        //navigates to register fragment
-        binding.buttonRegister.setOnClickListener(button -> {
-
-            //Use the navigate method to perform the navigation.
-            Navigation.findNavController(getView()).navigate(
-                    SignInFragmentDirections.actionSignInFragmentToRegisterFragment()
-            );
-        });
-
-        //on click listener for sign in button
-        binding.buttonSignin.setOnClickListener(this::onClickSignIn);
+        binding.buttonSignin.setOnClickListener(this::attemptSignIn);
 
         mSignInModel.addResponseObserver(
                 getViewLifecycleOwner(),
-                this::observeResponse
-        );
+                this::observeResponse);
 
         SignInFragmentArgs args = SignInFragmentArgs.fromBundle(getArguments());
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail());
         binding.editPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword());
     }
 
-    /**
-     * Method to validate user inputs from Sign_in xml file
-     * If all inputs are valid then navigates to success fragment
-     * @param view
-     */
-    private void onClickSignIn(View view){
+    private void attemptSignIn(final View button) {
+        validateEmail();
+    }
 
-        email = binding.textEmail.getText().toString();
-        int size = email.length();
-        int occurrence = size - (email.replaceAll("@", "")).length();
+    private void validateEmail() {
+        mEmailValidator.processResult(
+                mEmailValidator.apply(binding.textEmail.getText().toString().trim()),
+                this::validatePassword,
+                result -> binding.textEmail.setError("Please enter a valid Email address."));
+    }
 
-        if(binding.textEmail.length()==0){
-            binding.textEmail.setError("Please enter an email address!");
-        }
-        else if(occurrence != 1){
-            binding.textEmail.setError("Invalid Email Address. Must contain single '@' ");
-        }
-        else if(binding.editPassword.length()==0) {
-            binding.editPassword.setError("Please enter a password!");
-        }
-        else{
-
-            //lab3 update
-            verifyAuthWithServer();
-
-            //if input is valid - generate JWT
-//            String jwt = generateJwt(email);
-
-            //lab2 update
-            //navigate to mainActivity
-//            SignInFragmentDirections.ActionSignInFragmentToMainActivity direction =
-//                    SignInFragmentDirections.actionSignInFragmentToMainActivity(jwt);
-
-            //navigates to success fragments
-//            SignInFragmentDirections.ActionSignInFragmentToSuccessFragment direction =
-//                    SignInFragmentDirections.actionSignInFragmentToSuccessFragment(email, jwt);
-
-            //Use the navigate method to perform the navigation.
-//            Navigation.findNavController(getView()).navigate(direction);
-
-//            getActivity().finish();
-        }
+    private void validatePassword() {
+        mPassWordValidator.processResult(
+                mPassWordValidator.apply(binding.editPassword.getText().toString()),
+                this::verifyAuthWithServer,
+                result -> binding.editPassword.setError("Please enter a valid Password."));
     }
 
     private void verifyAuthWithServer() {
@@ -138,6 +102,18 @@ public class SignInFragment extends Fragment {
                 binding.editPassword.getText().toString());
         //This is an Asynchronous call. No statements after should rely on the
         //result of connect().
+    }
+
+    /**
+     * Helper to abstract the navigation to the Activity past Authentication.
+     * @param email users email
+     * @param jwt the JSON Web Token supplied by the server
+     */
+    private void navigateToSuccess(final String email, final String jwt) {
+        Navigation.findNavController(getView())
+                .navigate(SignInFragmentDirections
+                        .actionSignInFragmentToMainActivity(email, jwt));
+        getActivity().finish();
     }
 
     /**
@@ -159,40 +135,16 @@ public class SignInFragment extends Fragment {
                 }
             } else {
                 try {
-                    Navigation.findNavController(getView())
-                            .navigate(SignInFragmentDirections
-                                    .actionSignInFragmentToMainActivity(generateJwt( binding.textEmail.getText().toString())));
-
-//
-                } catch (Exception e) {
+                    navigateToSuccess(
+                            binding.textEmail.getText().toString(),
+                            response.getString("token")
+                    );
+                } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
             }
         } else {
             Log.d("JSON Response", "No Response");
         }
-    }
-
-    /**
-     * This helper method is creating a JSON Web Token (JWT). In future labs, the JWT will
-     * be created and sent to us from the Web Service. For now, we will "fake" that and create
-     * the JWT client-side. This is ANTI-PATTERN!!! Do not create JWTs client-side.
-     *
-     * @param email the email used to encode into the JWT
-     * @return the resulting JWT
-     */
-    private String generateJwt(final String email) {
-        String token;
-        try {
-            Algorithm algorithm = Algorithm.HMAC256("secret key don't use a string literal in " +
-                    "production code!!!");
-            token = JWT.create()
-                    .withIssuer("auth0")
-                    .withClaim("email", email)
-                    .sign(algorithm);
-        } catch (JWTCreationException exception){
-            throw new RuntimeException("JWT Failed to Create.");
-        }
-        return token;
     }
 }
