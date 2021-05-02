@@ -22,6 +22,7 @@
     <string name="title_contact">Contact</string>
     <string name="title_signin">SignIn</string>
     <string name="title_register">Register</string>
+    <string name="text_home_title">Welcome !</string>
 
 
 </resources>

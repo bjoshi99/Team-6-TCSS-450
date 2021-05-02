@@ -1,6 +1,7 @@
 package edu.uw.team6tcss450;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import edu.uw.team6tcss450.model.UserInfoViewModel;
+
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -17,6 +20,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+
+        System.out.println("Email : " + args.getEmail());
+
+        new ViewModelProvider(this,
+                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt())
+        ).get(UserInfoViewModel.class);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

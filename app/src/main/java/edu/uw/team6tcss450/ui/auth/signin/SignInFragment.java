@@ -136,8 +136,8 @@ public class SignInFragment extends Fragment {
             } else {
                 try {
                     navigateToSuccess(
-                            binding.textEmail.getText().toString(),
-                            response.getString("token")
+                            response.getString("token"),
+                            binding.textEmail.getText().toString()
                     );
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
