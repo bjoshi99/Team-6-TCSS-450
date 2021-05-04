@@ -12,7 +12,7 @@
         android:title="@string/title_contact" />
 
     <item
-        android:id="@+id/navigation_chat"
+        android:id="@+id/navigation_blogs"
         android:icon="@drawable/ic_chat_chat_black_24dp"
         android:title="@string/title_chat" />
 
