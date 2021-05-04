@@ -24,6 +24,10 @@
             android:name="password"
             app:argType="string"
             android:defaultValue="default" />
+        <argument
+            android:name="username"
+            app:argType="string"
+            android:defaultValue="default" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -44,6 +48,9 @@
             app:argType="string" />
         <argument
             android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="username"
             app:argType="string" />
     </activity>
 </navigation>

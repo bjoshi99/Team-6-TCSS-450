@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment {
         UserInfoViewModel model = new ViewModelProvider(getActivity())
                 .get(UserInfoViewModel.class);
 
+        //for now, email is displayed on home but for future, we can change it to username
         FragmentHomeBinding.bind(getView()).texttile.setText("Welcome " + model.getEmail() + " !");
     }
 }

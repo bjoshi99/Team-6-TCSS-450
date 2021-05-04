@@ -23,6 +23,5 @@
     <string name="title_signin">SignIn</string>
     <string name="title_register">Register</string>
     <string name="text_home_title">Welcome !</string>
-
-
+    <string name="edit_register_username">Username</string>
 </resources>

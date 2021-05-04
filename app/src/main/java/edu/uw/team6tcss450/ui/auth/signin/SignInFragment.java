@@ -30,6 +30,7 @@ public class SignInFragment extends Fragment {
 
     private FragmentSignInBinding binding;
     private SignInViewModel mSignInModel;
+    private String mUserName;
 
     private PasswordValidator mEmailValidator = checkPwdLength(2)
             .and(checkExcludeWhiteSpace())
@@ -75,6 +76,7 @@ public class SignInFragment extends Fragment {
         SignInFragmentArgs args = SignInFragmentArgs.fromBundle(getArguments());
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail());
         binding.editPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword());
+        mUserName = args.getUsername();
     }
 
     private void attemptSignIn(final View button) {
@@ -109,10 +111,10 @@ public class SignInFragment extends Fragment {
      * @param email users email
      * @param jwt the JSON Web Token supplied by the server
      */
-    private void navigateToSuccess(final String email, final String jwt) {
+    private void navigateToSuccess(final String email, final String jwt, String username) {
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
-                        .actionSignInFragmentToMainActivity(email, jwt));
+                        .actionSignInFragmentToMainActivity(email, jwt, username));
         getActivity().finish();
     }
 
@@ -137,7 +139,8 @@ public class SignInFragment extends Fragment {
                 try {
                     navigateToSuccess(
                             response.getString("token"),
-                            binding.textEmail.getText().toString()
+                            binding.textEmail.getText().toString(),
+                            mUserName
                     );
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());

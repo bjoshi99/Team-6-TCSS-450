@@ -88,11 +88,21 @@ public class RegisterFragment extends Fragment {
     private void validateLast() {
         mNameValidator.processResult(
                 mNameValidator.apply(binding.editLastName.getText().toString().trim()),
-                this::validateEmail,
+                this::validateUsername,
                 result -> binding.editLastName.setError("Please enter a last name."));
     }
 
+    private void validateUsername(){
+        //check if user name field is empty or not
+        if((binding.editUsername.getText().toString()).length() == 0){
+            binding.editUsername.setError("Please enter a username.");
+        }
+        else
+            validateEmail();
+    }
+
     private void validateEmail() {
+
         mEmailValidator.processResult(
                 mEmailValidator.apply(binding.editEmailRegister.getText().toString().trim()),
                 this::validatePasswordsMatch,
@@ -122,6 +132,7 @@ public class RegisterFragment extends Fragment {
         mRegisterModel.connect(
                 binding.editFirstName.getText().toString(),
                 binding.editLastName.getText().toString(),
+                binding.editUsername.getText().toString(),
                 binding.editEmailRegister.getText().toString(),
                 binding.editPasswordRegister.getText().toString());
         //This is an Asynchronous call. No statements after should rely on the
@@ -134,6 +145,7 @@ public class RegisterFragment extends Fragment {
 
         directions.setEmail(binding.editEmailRegister.getText().toString());
         directions.setPassword(binding.editPasswordRegister.getText().toString());
+        directions.setUsername(binding.editUsername.getText().toString());
 
         Navigation.findNavController(getView()).navigate(directions);
 
@@ -150,9 +162,19 @@ public class RegisterFragment extends Fragment {
         if (response.length() > 0) {
             if (response.has("code")) {
                 try {
-                    binding.editEmailRegister.setError(
-                            "Error Authenticating: " +
-                                    response.getJSONObject("data").getString("message"));
+                    String msg = response.getJSONObject("data").getString("message");
+
+                    if(msg.contains("Email")){
+                        binding.editEmailRegister.setError(
+                                "Error Authenticating: " +
+                                        response.getJSONObject("data").getString("message"));
+                    }
+                    if(msg.contains("Username")){
+                        binding.editUsername.setError(
+                                "Error Authenticating: " +
+                                        response.getJSONObject("data").getString("message"));
+                    }
+
                 } catch (JSONException e) {
                     Log.e("JSON Parse Error", e.getMessage());
                 }
