@@ -19,7 +19,7 @@
             android:id="@+id/text_pubdate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/purple_500"
+            android:background="@color/blue_500"
             android:paddingLeft="8dp"
             android:paddingTop="8dp"
             android:paddingRight="8dp"

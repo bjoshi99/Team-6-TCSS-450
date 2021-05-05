@@ -10,11 +10,6 @@ public class ChatPost implements Serializable {
     private final String mTeaser;
     private final String mAuthor;
 
-    /**
-     * Helper class for building Credentials.
-     *
-     * @author Charles Bryan
-     */
     public static class Builder {
         private final String mPubDate;
         private final String mTitle;
