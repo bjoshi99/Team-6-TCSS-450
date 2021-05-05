@@ -65,7 +65,7 @@ public class ChatRecyclerViewAdapter extends Adapter<ChatRecyclerViewAdapter.Cha
             mBlog = chat;
 
             binding.textTitle.setText(chat.getPubDate());
-            binding.textPubdate.setText("Friends Name");
+            binding.textPubdate.setText("John Smith");
 
             binding.textPreview.setText("This is the preview of the chat message");
             displayPreview();
