@@ -24,4 +24,8 @@
     <string name="title_register">Register</string>
     <string name="text_home_title">Welcome !</string>
     <string name="edit_register_username">Username</string>
+    <string name="edit_contact_name">Name</string>
+    <string name="edit_contact_status">I am feeling good today !</string>
+    <string name="edit_contact_send_msg">Send Message</string>
+
 </resources>
