@@ -1,12 +1,16 @@
 package edu.uw.team6tcss450;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +18,9 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import edu.uw.team6tcss450.databinding.FragmentHomeBinding;
 import edu.uw.team6tcss450.model.UserInfoViewModel;
+import edu.uw.team6tcss450.ui.home.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -58,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            //TODO open a settings fragment
             Log.d("SETTINGS", "Clicked");
             return true;
         }
