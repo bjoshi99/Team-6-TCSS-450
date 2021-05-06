@@ -14,51 +14,10 @@
         android:text="Mostly Cloudy"
         android:textAlignment="center"
         android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/RecyclerView_Weather"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-    <TextView
-        android:id="@+id/text_wind_home3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="304dp"
-        android:text="Wind Speed: 1.5 mph"
-        android:textSize="23sp"
-        app:layout_constraintBottom_toTopOf="@+id/list_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.765" />
-
-    <TextView
-        android:id="@+id/text_humidity_home3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="264dp"
-        android:text="Humidity: 36%"
-        android:textSize="23sp"
-        app:layout_constraintBottom_toTopOf="@+id/list_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.952" />
-
-    <TextView
-        android:id="@+id/text_minmax_home3"
-        android:layout_width="201dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="224dp"
-        android:layout_marginEnd="5dp"
-        android:text="Min/Max : 48° / 69° F"
-        android:textAlignment="center"
-        android:textSize="23sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerView_Weather"
@@ -112,8 +71,10 @@
         android:layout_marginStart="16dp"
         android:text="50° F"
         android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/RecyclerView_Weather"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.0" />
 
     <!--    <androidx.recyclerview.widget.RecyclerView-->
     <!--        android:id="@+id/RecyclerView_Weather"-->
