@@ -22,7 +22,9 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.41" />
+        app:layout_constraintVertical_bias="0.41"
+        android:drawablePadding="8dp"
+        android:drawableLeft="@drawable/ic_baseline_email_24"/>
 
     <EditText
         android:id="@+id/edit_password"
@@ -36,7 +38,9 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_email" />
+        app:layout_constraintTop_toBottomOf="@+id/text_email"
+        android:drawablePadding="8dp"
+        android:drawableLeft="@drawable/ic_baseline_lock_24"/>
 
     <Button
         android:id="@+id/button_signin"
