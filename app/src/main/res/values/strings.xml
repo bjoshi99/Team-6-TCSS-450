@@ -28,4 +28,7 @@
     <string name="edit_contact_status">I am feeling good today !</string>
     <string name="edit_contact_send_msg">Send Message</string>
 
+    <string name="button_setting_signout">Sign Out</string>
+    <string name="checkbox_login_remember">Remember me</string>
+    <string name="text_login_forgot">Forgot Password ?</string>
 </resources>

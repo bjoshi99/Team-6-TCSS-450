@@ -9,20 +9,41 @@
         android:id="@+id/navigation_home"
         android:name="edu.uw.team6tcss450.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_settingFragment2"
+            app:destination="@id/settingFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_blogs"
         android:name="edu.uw.team6tcss450.ui.chat.ChatListFragment"
         android:label="@string/title_chat"
-        tools:layout="@layout/fragment_chat_list" />
+        tools:layout="@layout/fragment_chat_list" >
+        <action
+            android:id="@+id/action_navigation_blogs_to_settingFragment2"
+            app:destination="@id/settingFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_contact"
         android:name="edu.uw.team6tcss450.ui.contact.ContactFragment"
         android:label="@string/title_contact"
-        tools:layout="@layout/fragment_contact" />
+        tools:layout="@layout/fragment_contact" >
+        <action
+            android:id="@+id/action_navigation_contact_to_settingFragment2"
+            app:destination="@id/settingFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_weather"
         android:name="edu.uw.team6tcss450.ui.weather.WeatherFragment"
         android:label="@string/title_weather"
-        tools:layout="@layout/fragment_weather" />
+        tools:layout="@layout/fragment_weather" >
+        <action
+            android:id="@+id/action_navigation_weather_to_settingFragment2"
+            app:destination="@id/settingFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment2"
+        android:name="edu.uw.team6tcss450.ui.home.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 </navigation>

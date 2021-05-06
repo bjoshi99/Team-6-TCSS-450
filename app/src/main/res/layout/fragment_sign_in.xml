@@ -44,7 +44,7 @@
         android:layout_width="130dp"
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="?attr/colorButtonNormal"
         android:hint="@string/button_signin_signin"
@@ -60,17 +60,45 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="114dp"
         android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="154dp"
-        android:layout_marginBottom="261dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="112dp"
         android:hint="@string/button_signin_register"
         android:textColorHint="@color/pink_200"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_signin"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password" />
+
+    <CheckBox
+        android:id="@+id/checkbox_remember_login"
+        android:layout_width="143dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="18dp"
+        android:text="Remember me"
+        app:layout_constraintBottom_toTopOf="@+id/button_signin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_password"
-        app:layout_constraintVertical_bias="0.111" />
+        app:layout_constraintVertical_bias="0.571" />
+
+    <TextView
+        android:id="@+id/text_forgot_login"
+        android:layout_width="129dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="99dp"
+        android:hint="@string/text_login_forgot"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/checkbox_remember_login"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_password" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
