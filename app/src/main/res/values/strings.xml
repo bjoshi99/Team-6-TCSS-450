@@ -31,4 +31,8 @@
     <string name="button_setting_signout">Sign Out</string>
     <string name="checkbox_login_remember">Remember me</string>
     <string name="text_login_forgot">Forgot Password ?</string>
+
+    <string name="default_theme">Default Theme</string>
+    <string name="dark">Dark Theme</string>
+    <string name="NoActionBar">NoActionBar Theme</string>
 </resources>

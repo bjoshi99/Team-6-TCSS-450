@@ -5,12 +5,11 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
-    android:background="@drawable/title_bg">
+    tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titleConstraint"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="106dp"
         android:layout_row="0"
         android:layout_column="0"
@@ -19,11 +18,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/title_bg">
 
         <TextView
             android:id="@+id/texttile"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -42,7 +42,7 @@
 
         <TextView
             android:id="@+id/datehome"
-            android:layout_width="153dp"
+            android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:text="May 6 2021"
             android:textAlignment="center"
@@ -60,55 +60,52 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="593dp"
-        android:layout_marginTop="136dp"
+        android:layout_height="625dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/white">
+        app:layout_constraintTop_toBottomOf="@+id/titleConstraint">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/list_home"
-            android:layout_width="407dp"
-            android:layout_height="331dp"
+            android:layout_width="match_parent"
+            android:layout_height="338dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintVertical_bias="0.88"
+            android:paddingBottom="56dp">
 
-            <TextView
-                android:id="@+id/text_title_home"
-                style="@style/Widget.AppCompat.TextView.SpinnerItem"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="10dp"
-                android:text="Most Recent Notifications"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintBottom_toTopOf="@+id/RecyclerView_Home"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+<!--            <TextView-->
+<!--                android:id="@+id/text_title_home"-->
+<!--                style="@style/Widget.AppCompat.TextView.SpinnerItem"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:text="Most Recent Notifications"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold|italic"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/RecyclerView_Home"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.0"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RecyclerView_Home"
-                android:layout_width="403dp"
-                android:layout_height="301dp"
-
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.867"
                 tools:listitem="@layout/fragment_notification_card" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -146,17 +143,17 @@
             android:text="Currently in Seattle"
             app:layout_constraintBottom_toTopOf="@+id/list_home"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.062"
+            app:layout_constraintHorizontal_bias="0.059"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.44" />
+            app:layout_constraintVertical_bias="0.37" />
 
         <TextView
             android:id="@+id/text_minmax_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="168dp"
             android:layout_marginEnd="5dp"
             android:text="Min/Max : 38° / 51° F"
             android:textAlignment="center"
@@ -174,9 +171,10 @@
             android:textSize="23sp"
             app:layout_constraintBottom_toTopOf="@+id/list_home"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.307"
             app:layout_constraintStart_toEndOf="@+id/text_wind_home"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.952" />
+            app:layout_constraintVertical_bias="0.911" />
 
         <TextView
             android:id="@+id/text_wind_home"
@@ -187,10 +185,10 @@
             android:textSize="23sp"
             app:layout_constraintBottom_toTopOf="@+id/list_home"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.119"
+            app:layout_constraintHorizontal_bias="0.116"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.765" />
+            app:layout_constraintVertical_bias="0.518" />
 
         <TextView
             android:id="@+id/textView4"

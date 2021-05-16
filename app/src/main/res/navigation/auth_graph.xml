@@ -28,6 +28,9 @@
             android:name="username"
             app:argType="string"
             android:defaultValue="default" />
+        <action
+            android:id="@+id/action_signInFragment_to_getEmailFragment"
+            app:destination="@id/getEmailFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -53,4 +56,28 @@
             android:name="username"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/getEmailFragment"
+        android:name="edu.uw.team6tcss450.ui.auth.resestPassword.GetEmailFragment"
+        android:label="Reset Password-1"
+        tools:layout="@layout/fragment_get_email" >
+        <action
+            android:id="@+id/action_getEmailFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="edu.uw.team6tcss450.ui.auth.resestPassword.ChangePasswordFragment"
+        android:label="Reset Password-2"
+        tools:layout="@layout/fragment_change_password" >
+        <action
+            android:id="@+id/action_changePasswordFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="verificationCode"
+            app:argType="string" />
+    </fragment>
 </navigation>

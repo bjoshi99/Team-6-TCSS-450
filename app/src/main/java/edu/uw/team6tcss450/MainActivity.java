@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            Log.d("SETTINGS", "Clicked");
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//            navController.navigateUp();
+            navController.navigate(R.id.settingFragment2);
             return true;
         }
         return super.onOptionsItemSelected(item);

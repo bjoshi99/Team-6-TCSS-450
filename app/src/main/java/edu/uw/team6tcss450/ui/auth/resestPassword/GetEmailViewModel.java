@@ -1,7 +1,6 @@
-package edu.uw.team6tcss450.ui.auth.signin;
+package edu.uw.team6tcss450.ui.auth.resestPassword;
 
 import android.app.Application;
-import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -20,17 +19,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
-import edu.uw.team6tcss450.io.RequestQueueSingleton;
-
-public class SignInViewModel extends AndroidViewModel {
+public class GetEmailViewModel extends AndroidViewModel {
 
     private MutableLiveData<JSONObject> mResponse;
 
-    public SignInViewModel(@NonNull Application application) {
+    public GetEmailViewModel(@NonNull Application application) {
         super(application);
         mResponse = new MutableLiveData<>();
         mResponse.setValue(new JSONObject());
@@ -41,40 +36,12 @@ public class SignInViewModel extends AndroidViewModel {
         mResponse.observe(owner, observer);
     }
 
-    public void connect(final String email, final String password) {
+    public void connect(String email){
 
-        String url = "https://tcss450-team6.herokuapp.com/auth";
-        Request request = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null, //no body for this get request
-                mResponse::setValue,
-                this::handleError) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
-                String credentials = email + ":" + password;
-                String auth = "Basic "
-                        + Base64.encodeToString(credentials.getBytes(),
-                        Base64.NO_WRAP);
-                headers.put("Authorization", auth);
-                return headers;
-            }
-        };
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                10_000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
-        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
-                .addToRequestQueue(request);
-    }
-
-    public void sendVerification(String email){
-//        System.out.println("************************** email: "+email+"*****************************");
-        String url = "https://tcss450-team6.herokuapp.com/verify";
+        String url = "https://tcss450-team6.herokuapp.com/reset/password";
         JSONObject body = new JSONObject();
+//        mEmail = binding.editTextEmailGetEmail.getText().toString();
+        System.out.println("in Connect method");
         try {
             body.put("email", email);
         } catch (JSONException e) {
@@ -90,9 +57,11 @@ public class SignInViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
+
+//        //Instantiate the RequestQueue and add the request to the queue
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
+
     }
 
     private void handleError(final VolleyError error) {
@@ -118,5 +87,7 @@ public class SignInViewModel extends AndroidViewModel {
             }
         }
     }
+
+
 
 }
