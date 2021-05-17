@@ -38,7 +38,7 @@ public class ChangePasswordViewModel extends AndroidViewModel {
 
     public void sendAndVerify(String password, String email, String Verificationcode) {
 
-        String url = "https://tcss450-team6.herokuapp.com/auth";
+        String url = "https://tcss450-team6.herokuapp.com/reset/password";
 
         JSONObject body = new JSONObject();
         try {
