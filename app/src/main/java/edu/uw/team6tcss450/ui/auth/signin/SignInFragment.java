@@ -1,7 +1,9 @@
 package edu.uw.team6tcss450.ui.auth.signin;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +21,12 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.auth0.android.jwt.JWT;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
 import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentArgs;
 import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentDirections;
@@ -129,10 +133,44 @@ public class SignInFragment extends Fragment {
      * @param jwt the JSON Web Token supplied by the server
      */
     private void navigateToSuccess(final String email, final String jwt, String username) {
+
+        if(binding.checkboxRememberLogin.isChecked()){
+            SharedPreferences prefs =
+                    getActivity().getSharedPreferences(
+                            getString(R.string.keys_shared_prefs),
+                            Context.MODE_PRIVATE);
+            //Store the credentials in SharedPrefs
+            prefs.edit().putString(getString(R.string.keys_prefs_jwt), jwt).apply();
+        }
+
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
                         .actionSignInFragmentToMainActivity(email, jwt, username));
         getActivity().finish();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        SharedPreferences prefs =
+                getActivity().getSharedPreferences(
+                        getString(R.string.keys_shared_prefs),
+                        Context.MODE_PRIVATE);
+
+        System.out.println("Token from signin fragment: " + prefs.getString(getString(R.string.keys_prefs_jwt), ""));
+
+        if (prefs.contains(getString(R.string.keys_prefs_jwt))) {
+            String token = prefs.getString(getString(R.string.keys_prefs_jwt), "");
+            JWT jwt = new JWT(token);
+            // Check to see if the web token is still valid or not. To make a JWT expire after a
+            // longer or shorter time period, change the expiration time when the JWT is
+            // created on the web service.
+            if(!jwt.isExpired(0)) {
+                String email = jwt.getClaim("email").asString();
+                navigateToSuccess(email, token, email);
+                return;
+            }
+        }
     }
 
     private void popUpHelper(){
@@ -202,8 +240,8 @@ public class SignInFragment extends Fragment {
                         }
                         else{
                             navigateToSuccess(
-                                    response.getString("token"),
                                     binding.textEmail.getText().toString(),
+                                    response.getString("token"),
                                     mUserName
                             );
                         }

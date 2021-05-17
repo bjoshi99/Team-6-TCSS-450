@@ -1,6 +1,8 @@
 package edu.uw.team6tcss450.ui.home;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -135,7 +137,38 @@ public class SettingFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
+        binding.buttonLogoutSetting.setOnClickListener(this::onClickLogOut);
 //        stateChangeOnce = false;
+    }
+
+    private void onClickLogOut(View v){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //Setting message manually and performing action on button click
+        builder.setMessage("You are about to logout!!")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences prefs =
+                                getActivity().getSharedPreferences(
+                                        getString(R.string.keys_shared_prefs),
+                                        Context.MODE_PRIVATE);
+                        prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
+                        //End the app completely
+                        getActivity().finishAndRemoveTask();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'Cancel' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Are You Sure ?");
+        alert.show();
     }
 
     @Override
