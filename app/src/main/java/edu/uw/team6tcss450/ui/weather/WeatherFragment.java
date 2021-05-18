@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
@@ -34,6 +35,7 @@ public class WeatherFragment extends Fragment {
     private FragmentWeatherBinding binding;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
+    private final String urlForecast = "https://api.openweathermap.org/data/2.5/forecast";
     private final String appid = "3d3d39ca7103cb14be20aa0681bc291d";
     DecimalFormat df = new DecimalFormat("#.##");
 
@@ -69,14 +71,17 @@ public class WeatherFragment extends Fragment {
                 public void onResponse(String response) {
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
+
                         JSONArray jsonArray = jsonResponse.getJSONArray("weather");
                         JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);
                         String description = jsonObjectWeather.getString("description");
+
                         JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
                         double temp = jsonObjectMain.getDouble("temp");
                         double feelsLike = jsonObjectMain.getDouble("feels_like");
                         float pressure = jsonObjectMain.getInt("pressure");
                         int humidity = jsonObjectMain.getInt("humidity");
+
                         JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
                         String wind = jsonObjectWind.getString("speed");
                         JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
@@ -84,6 +89,7 @@ public class WeatherFragment extends Fragment {
                         JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
                         String countryName = jsonObjectSys.getString("country");
                         String cityName = jsonResponse.getString("name");
+
                         String output = "Current weather of " + cityName + " (" + countryName + ")"
                                 + "\nTemp: " + df.format(temp) + " °F"
                                 + "\nFeels Like: " + df.format(feelsLike) + " °F"
@@ -105,6 +111,108 @@ public class WeatherFragment extends Fragment {
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
             queue.add(stringRequest);
+        }
+
+        getForecastDetails(view);
+    }
+
+    public void getForecastDetails(View view) {
+        String tempurl = "";
+        String city = binding.editTextSearchbar.getText().toString();
+
+        if (city.equals("")) {
+            binding.textViewOutput.setText("City field cannot be empty!");
+        } else {
+            tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
+
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        int keyElementsIndex = 1;
+                        boolean firstElementNotNoon = true;
+                        JSONObject[] keyElements = new JSONObject[5];
+
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONArray jsonArray = jsonResponse.getJSONArray("list");
+
+                        // loop for creating adding forecast to keyElements
+                        for(int i=0; i<jsonArray.length(); i++) {
+                            // adds initial value to first element
+                            if (keyElements[0] == null) {
+                                keyElements[0] = jsonArray.getJSONObject(0);
+                            }
+                            else {
+                                // makes sure first element is 12:00:00
+                                if (firstElementNotNoon && checkDates(keyElements[0].getString("dt_txt"), jsonArray.getJSONObject(i).getString("dt_txt"), firstElementNotNoon)) {
+                                    keyElements[0] = jsonArray.getJSONObject(i);
+                                    firstElementNotNoon = false;
+                                }
+                                // makes sure it's a different day and at 12:00:00
+                                if(checkDates(keyElements[keyElementsIndex-1].getString("dt_txt"), jsonArray.getJSONObject(i).getString("dt_txt"), false)) {
+                                    keyElements[keyElementsIndex] = jsonArray.getJSONObject(i);
+                                    keyElementsIndex++;
+                                }
+                                // backup in case the last element is before 12:00:00
+                                if(i == jsonArray.length()-1) keyElements[4] = jsonArray.getJSONObject(i);
+                            }
+                            // to exit
+                            if (keyElements[4] != null) i = jsonArray.length()+1;
+                        }
+
+                        String output = keyElements[0].getString("dt_txt").substring(6, 10)
+                                + " High:" + df.format(keyElements[0].getJSONObject("main").getDouble("temp_max"))
+                                + " Low:" + df.format(keyElements[0].getJSONObject("main").getDouble("temp_min"))
+                                + " " + keyElements[0].getJSONArray("weather").getJSONObject(0).getString("main")
+                                + "\n"
+                                + keyElements[1].getString("dt_txt").substring(6, 10) + " High:"
+                                + df.format(keyElements[1].getJSONObject("main").getDouble("temp_max"))
+                                + " Low:" + df.format(keyElements[1].getJSONObject("main").getDouble("temp_min"))
+                                + " " + keyElements[1].getJSONArray("weather").getJSONObject(0).getString("main")
+                                + "\n"
+                                + keyElements[2].getString("dt_txt").substring(6, 10)
+                                + " High:" + df.format(keyElements[2].getJSONObject("main").getDouble("temp_max"))
+                                + " Low:" + df.format(keyElements[2].getJSONObject("main").getDouble("temp_min"))
+                                + " " + keyElements[2].getJSONArray("weather").getJSONObject(0).getString("main")
+                                + "\n"
+                                + keyElements[3].getString("dt_txt").substring(6, 10)
+                                + " High:" + df.format(keyElements[3].getJSONObject("main").getDouble("temp_max"))
+                                + " Low:" + df.format(keyElements[3].getJSONObject("main").getDouble("temp_min"))
+                                + " " + keyElements[3].getJSONArray("weather").getJSONObject(0).getString("main")
+                                + "\n"
+                                + keyElements[4].getString("dt_txt").substring(6, 10)
+                                + " High:" + df.format(keyElements[4].getJSONObject("main").getDouble("temp_max"))
+                                + " Low:" + df.format(keyElements[4].getJSONObject("main").getDouble("temp_min"))
+                                + " " + keyElements[4].getJSONArray("weather").getJSONObject(0).getString("main");
+
+                        binding.textViewForecast.setText(output);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    binding.textViewOutput.setText(error.toString());
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+            queue.add(stringRequest);
+        }
+    }
+
+
+    // returns true if dates are different and are at 12:00:00
+    private boolean checkDates(String dateBefore, String dateToCheck, boolean isFirstElement) {
+        if (isFirstElement) {
+            if (dateToCheck.contains("12:00:00")) return true;
+            else return false;
+        } else {
+            if (dateBefore.substring(6, 10).equals(dateToCheck.substring(6, 10))) return false;
+            else {
+                if (dateToCheck.contains("12:00:00")) return true;
+                else return false;
+            }
         }
     }
 }
