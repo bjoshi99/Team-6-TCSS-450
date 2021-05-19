@@ -40,5 +40,9 @@
     <string name="keys_shared_prefs">My Auth App Shared Prefs</string>
     <string name="keys_prefs_jwt">Sharded Prefs JWT</string>
     <string name="action_sign_out">Sign Out</string>
+    <string name="text_enter_city">Enter City</string>
+    <string name="button_search">Search</string>
+    <string name="base_url">https://tcss450-team6.herokuapp.com/</string>
+
 
 </resources>

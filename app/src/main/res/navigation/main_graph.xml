@@ -11,7 +11,7 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/navigation_blogs"
+        android:id="@+id/chatFragment"
         android:name="edu.uw.team6tcss450.ui.chat.ChatListFragment"
         android:label="@string/title_chat"
         tools:layout="@layout/fragment_chat_list" />
@@ -54,4 +54,10 @@
             android:id="@+id/action_doneChangeFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="edu.uw.team6tcss450.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>

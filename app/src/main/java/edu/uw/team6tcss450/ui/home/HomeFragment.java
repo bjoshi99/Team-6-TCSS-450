@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentHomeBinding;
 import edu.uw.team6tcss450.model.UserInfoViewModel;
-import edu.uw.team6tcss450.ui.weather.WeatherModel;
-import edu.uw.team6tcss450.ui.weather.WeatherRecyclerViewAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
