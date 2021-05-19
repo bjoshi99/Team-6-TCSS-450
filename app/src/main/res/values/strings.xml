@@ -42,8 +42,7 @@
     <string name="action_sign_out">Sign Out</string>
     <string name="text_enter_city">Enter City</string>
     <string name="button_search">Search</string>
-=======
     <string name="base_url">https://tcss450-team6.herokuapp.com/</string>
->>>>>>> e06f09eb8d6bf3fe75c7448f149403353fce6037
+
 
 </resources>
