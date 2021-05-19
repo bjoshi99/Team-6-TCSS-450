@@ -1,26 +1,19 @@
 package edu.uw.team6tcss450;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import edu.uw.team6tcss450.databinding.FragmentHomeBinding;
 import edu.uw.team6tcss450.model.UserInfoViewModel;
-import edu.uw.team6tcss450.ui.home.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -40,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_blogs, R.id.navigation_contact, R.id.navigation_weather)
+                R.id.navigation_home, R.id.chatFragment, R.id.navigation_contact, R.id.navigation_weather)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
