@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,9 +31,11 @@ import java.util.List;
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
 import edu.uw.team6tcss450.databinding.FragmentWeatherBinding;
+import edu.uw.team6tcss450.ui.auth.signin.SignInViewModel;
 
 public class WeatherFragment extends Fragment {
     private FragmentWeatherBinding binding;
+    private WeatherViewModel mWeatherModel;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
     private final String urlForecast = "https://api.openweathermap.org/data/2.5/forecast";
@@ -42,6 +45,8 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mWeatherModel = new ViewModelProvider(getActivity())
+                .get(WeatherViewModel.class);
     }
 
     @Override
@@ -136,7 +141,7 @@ public class WeatherFragment extends Fragment {
                         JSONObject jsonResponse = new JSONObject(response);
                         JSONArray jsonArray = jsonResponse.getJSONArray("list");
 
-                        // loop for creating adding forecast to keyElements
+                        // loop for adding forecast to keyElements
                         for(int i=0; i<jsonArray.length(); i++) {
                             // adds initial value to first element
                             if (keyElements[0] == null) {
