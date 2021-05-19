@@ -10,20 +10,16 @@
         android:name="edu.uw.team6tcss450.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/navigation_blogs"
-        android:name="edu.uw.team6tcss450.ui.chat.ChatListFragment"
-        android:label="@string/title_chat"
-        tools:layout="@layout/fragment_chat_list" />
+<!--    <fragment-->
+<!--        android:id="@+id/chatFragment"-->
+<!--        android:name="edu.uw.team6tcss450.ui.chat.ChatListFragment"-->
+<!--        android:label="@string/title_chat"-->
+<!--        tools:layout="@layout/fragment_chat_list" />-->
     <fragment
         android:id="@+id/navigation_contact"
         android:name="edu.uw.team6tcss450.ui.contact.ContactFragment"
         android:label="@string/title_contact"
-        tools:layout="@layout/fragment_contact" >
-        <action
-            android:id="@+id/action_navigation_contact_to_contactSearchFragment"
-            app:destination="@id/contactSearchFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_contact" />
     <fragment
         android:id="@+id/navigation_weather"
         android:name="edu.uw.team6tcss450.ui.weather.WeatherFragment"
@@ -33,14 +29,35 @@
         android:id="@+id/settingFragment2"
         android:name="edu.uw.team6tcss450.ui.home.SettingFragment"
         android:label="Setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment2_to_updatePasswordFragment"
+            app:destination="@id/updatePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="edu.uw.team6tcss450.ui.home.UpdatePasswordFragment"
+        android:label="UpdatePasswordFragment" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_updatePasswordFragment_to_doneChangeFragment"
+            app:destination="@id/doneChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doneChangeFragment"
+        android:name="edu.uw.team6tcss450.ui.home.DoneChangeFragment"
+        android:label="fragment_done_change"
+        tools:layout="@layout/fragment_done_change" >
+        <action
+            android:id="@+id/action_doneChangeFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
         tools:layout="@layout/fragment_setting" />
     <fragment
-        android:id="@+id/contactSearchFragment"
-        android:name="edu.uw.team6tcss450.ui.contact.ContactSearchFragment"
-        android:label="fragment_contact_search"
-        tools:layout="@layout/fragment_contact_search" >
-        <action
-            android:id="@+id/action_contactSearchFragment_to_navigation_contact"
-            app:destination="@id/navigation_contact" />
-    </fragment>
+        android:id="@+id/chatFragment"
+        android:name="edu.uw.team6tcss450.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>

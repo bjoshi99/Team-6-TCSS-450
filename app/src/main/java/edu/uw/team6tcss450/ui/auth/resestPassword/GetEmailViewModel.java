@@ -38,7 +38,7 @@ public class GetEmailViewModel extends AndroidViewModel {
 
     public void connect(String email){
 
-        String url = "https://tcss450-team6.herokuapp.com/reset/password";
+        String url = "https://tcss450-team6.herokuapp.com/reset/password?email="+email;
         JSONObject body = new JSONObject();
 //        mEmail = binding.editTextEmailGetEmail.getText().toString();
         System.out.println("in Connect method");
@@ -48,7 +48,7 @@ public class GetEmailViewModel extends AndroidViewModel {
             e.printStackTrace();
         }
         Request request = new JsonObjectRequest(
-                Request.Method.POST,
+                Request.Method.GET,
                 url,
                 body,
                 mResponse::setValue,
