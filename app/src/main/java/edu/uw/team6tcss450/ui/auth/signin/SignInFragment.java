@@ -28,6 +28,8 @@ import org.json.JSONObject;
 
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
+import edu.uw.team6tcss450.model.PushyTokenViewModel;
+import edu.uw.team6tcss450.model.UserInfoViewModel;
 import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentArgs;
 import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentDirections;
 import edu.uw.team6tcss450.ui.auth.signin.SignInViewModel;
@@ -43,6 +45,10 @@ public class SignInFragment extends Fragment {
     private FragmentSignInBinding binding;
     private SignInViewModel mSignInModel;
     private String mUserName;
+
+    private PushyTokenViewModel mPushyTokenViewModel;
+    private UserInfoViewModel mUserViewModel;
+
 
     private PasswordValidator mEmailValidator = checkPwdLength(2)
             .and(checkExcludeWhiteSpace())
@@ -60,6 +66,9 @@ public class SignInFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mSignInModel = new ViewModelProvider(getActivity())
                 .get(SignInViewModel.class);
+
+        mPushyTokenViewModel = new ViewModelProvider(getActivity())
+                .get(PushyTokenViewModel.class);
     }
 
     @Override
@@ -91,6 +100,43 @@ public class SignInFragment extends Fragment {
         binding.textEmail.setText(args.getEmail().equals("default") ? "" : args.getEmail());
         binding.editPassword.setText(args.getPassword().equals("default") ? "" : args.getPassword());
         mUserName = args.getUsername();
+
+        //don't allow sign in until pushy token retrieved
+        mPushyTokenViewModel.addTokenObserver(getViewLifecycleOwner(), token ->
+                binding.buttonSignin.setEnabled(!token.isEmpty()));
+
+        mPushyTokenViewModel.addResponseObserver(
+                getViewLifecycleOwner(),
+                this::observePushyPutResponse);
+    }
+
+    /**
+     * Helper to abstract the request to send the pushy token to the web service
+     */
+    private void sendPushyToken() {
+        mPushyTokenViewModel.sendTokenToWebservice(mUserViewModel.getmJwt());
+    }
+
+    /**
+     * An observer on the HTTP Response from the web server. This observer should be
+     * attached to PushyTokenViewModel.
+     *
+     * @param response the Response from the server
+     */
+    private void observePushyPutResponse(final JSONObject response) {
+        if (response.length() > 0) {
+            if (response.has("code")) {
+                //this error cannot be fixed by the user changing credentials...
+                binding.textEmail.setError(
+                        "Error Authenticating on Push Token. Please contact support");
+            } else {
+                navigateToSuccess(
+                        binding.textEmail.getText().toString(),
+                        mUserViewModel.getmJwt(),
+                        binding.textEmail.getText().toString()
+                );
+            }
+        }
     }
 
     private void forgotnavigate(View view) {
@@ -239,11 +285,18 @@ public class SignInFragment extends Fragment {
                             Toast.makeText(getActivity(), "Email resent successfully!", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            navigateToSuccess(
-                                    binding.textEmail.getText().toString(),
-                                    response.getString("token"),
-                                    mUserName
-                            );
+                            mUserViewModel = new ViewModelProvider(getActivity(),
+                                    new UserInfoViewModel.UserInfoViewModelFactory(
+                                            binding.textEmail.getText().toString(),
+                                            response.getString("token"),
+                                            binding.textEmail.getText().toString()
+                                    )).get(UserInfoViewModel.class);
+                            sendPushyToken();
+//                            navigateToSuccess(
+//                                    binding.textEmail.getText().toString(),
+//                                    response.getString("token"),
+//                                    mUserName
+//                            );
                         }
 
                     } catch (JSONException e) {

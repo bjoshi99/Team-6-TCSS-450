@@ -6,6 +6,10 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.ViewModelProvider;
+
+import edu.uw.team6tcss450.model.PushyTokenViewModel;
+import me.pushy.sdk.Pushy;
 
 public class AuthActivity extends AppCompatActivity {
     @Override
@@ -26,5 +30,11 @@ public class AuthActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        Pushy.listen(this);
+        initiatePushyTokenRequest();
+    }
+
+    private void initiatePushyTokenRequest() {
+        new ViewModelProvider(this).get(PushyTokenViewModel.class).retrieveToken();
     }
 }

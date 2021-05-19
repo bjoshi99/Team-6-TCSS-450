@@ -173,6 +173,7 @@ public class ChatViewModel extends AndroidViewModel {
     public void addMessage(final int chatId, final ChatMessage message) {
         List<ChatMessage> list = getMessageListByChatId(chatId);
         list.add(message);
+        System.out.println("message added");
         getOrCreateMapEntry(chatId).setValue(list);
     }
 

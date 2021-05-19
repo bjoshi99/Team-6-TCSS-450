@@ -94,6 +94,7 @@ public class ChatFragment extends Fragment {
                     rv.getAdapter().notifyDataSetChanged();
                     rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
                     binding.swipeContainer.setRefreshing(false);
+                    System.out.println("In addMessageObsesver");
                 });
 
 
