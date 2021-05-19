@@ -117,11 +117,54 @@ public class WeatherFragment extends Fragment {
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
             queue.add(stringRequest);
         }
-
-        getForecastDetails(view);
+        get24HourForecastDetails();
+        getForecastDetails();
     }
 
-    public void getForecastDetails(View view) {
+    public void get24HourForecastDetails() {
+        String tempurl = "";
+        String city = binding.editTextSearchbar.getText().toString();
+
+        if (city.equals("")) {
+            binding.textViewOutput.setText("City field cannot be empty!");
+        } else {
+            tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
+
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        JSONArray jsonArray = jsonResponse.getJSONArray("list");
+
+                        StringBuilder str = new StringBuilder();
+
+                        for (int i = 0; i < 8; i++) {
+                            JSONObject jsonObjectList = jsonArray.getJSONObject(i);
+                            JSONObject jsonObjectMain = jsonObjectList.getJSONObject("main");
+                            double temp = jsonObjectMain.getDouble("temp");
+                            String time = jsonObjectList.getString("dt_txt").substring(11, 13);
+                            str.append("Time: " + time + ", Temp: " + temp + "\n");
+                        }
+
+                        binding.textView24hour.setText(str.toString());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    binding.textViewOutput.setText(error.toString());
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+            queue.add(stringRequest);
+        }
+    }
+
+    public void getForecastDetails() {
         String tempurl = "";
         String city = binding.editTextSearchbar.getText().toString();
 
