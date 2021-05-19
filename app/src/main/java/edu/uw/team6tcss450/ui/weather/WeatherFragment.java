@@ -37,6 +37,7 @@ public class WeatherFragment extends Fragment {
     private FragmentWeatherBinding binding;
     private WeatherViewModel mWeatherModel;
 
+    private String currentCity = "Seattle";
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
     private final String urlForecast = "https://api.openweathermap.org/data/2.5/forecast";
     private final String appid = "3d3d39ca7103cb14be20aa0681bc291d";
@@ -59,12 +60,15 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.buttonCity.setOnClickListener(this::getWeatherDetails);
+        getWeatherDetails(currentCity);
+        binding.buttonCity.setOnClickListener(button -> getWeatherDetails(binding.editTextSearchbar.getText().toString()));
+//        binding.buttonCity.setOnClickListener(this::getWeatherDetails);
     }
 
-    public void getWeatherDetails(View view) {
+    public void getWeatherDetails(String city) {
         String tempurl = "";
-        String city = binding.editTextSearchbar.getText().toString();
+//        String city = binding.editTextSearchbar.getText().toString();
+        currentCity = city;
 
         if (city.equals("")) {
             binding.textViewOutput.setText("City field cannot be empty!");
@@ -117,13 +121,13 @@ public class WeatherFragment extends Fragment {
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
             queue.add(stringRequest);
         }
-        get24HourForecastDetails();
-        getForecastDetails();
+        get24HourForecastDetails(city);
+        getForecastDetails(city);
     }
 
-    public void get24HourForecastDetails() {
+    public void get24HourForecastDetails(String city) {
         String tempurl = "";
-        String city = binding.editTextSearchbar.getText().toString();
+//        String city = binding.editTextSearchbar.getText().toString();
 
         if (city.equals("")) {
             binding.textViewOutput.setText("City field cannot be empty!");
@@ -156,7 +160,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textViewOutput.setText(error.toString());
+                    binding.textViewOutput.setText("Please enter a valid city.");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -164,9 +168,9 @@ public class WeatherFragment extends Fragment {
         }
     }
 
-    public void getForecastDetails() {
+    public void getForecastDetails(String city) {
         String tempurl = "";
-        String city = binding.editTextSearchbar.getText().toString();
+//        String city = binding.editTextSearchbar.getText().toString();
 
         if (city.equals("")) {
             binding.textViewOutput.setText("City field cannot be empty!");
