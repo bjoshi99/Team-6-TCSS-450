@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -18,9 +20,11 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import edu.uw.team6tcss450.MainActivityArgs;
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSettingBinding;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
+import edu.uw.team6tcss450.model.UserInfoViewModel;
 
 /**
  * create an instance of this fragment.
@@ -33,6 +37,7 @@ public class SettingFragment extends Fragment {
     FragmentSettingBinding binding;
     boolean stateChangeOnce;
     boolean isAutomaticallyChanged = false;
+    UserInfoViewModel model;
 
 
     @Override
@@ -138,7 +143,24 @@ public class SettingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.buttonLogoutSetting.setOnClickListener(this::onClickLogOut);
+        binding.buttonUpdatePassSetting.setOnClickListener(this::onClickUpdatePassword);
 //        stateChangeOnce = false;
+
+        model = new ViewModelProvider(getActivity())
+                .get(UserInfoViewModel.class);
+    }
+
+    private void onClickUpdatePassword(View view) {
+
+//        MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+
+
+        System.out.println("Email from the setting fragment : " + model.getEmail());
+
+        SettingFragmentDirections.ActionSettingFragment2ToUpdatePasswordFragment directions =
+                SettingFragmentDirections.actionSettingFragment2ToUpdatePasswordFragment(model.getEmail());
+
+        Navigation.findNavController(getView()).navigate(directions);
     }
 
     private void onClickLogOut(View v){

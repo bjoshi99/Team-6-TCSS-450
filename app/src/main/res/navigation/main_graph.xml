@@ -29,5 +29,29 @@
         android:id="@+id/settingFragment2"
         android:name="edu.uw.team6tcss450.ui.home.SettingFragment"
         android:label="Setting"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment2_to_updatePasswordFragment"
+            app:destination="@id/updatePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="edu.uw.team6tcss450.ui.home.UpdatePasswordFragment"
+        android:label="UpdatePasswordFragment" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_updatePasswordFragment_to_doneChangeFragment"
+            app:destination="@id/doneChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doneChangeFragment"
+        android:name="edu.uw.team6tcss450.ui.home.DoneChangeFragment"
+        android:label="fragment_done_change"
+        tools:layout="@layout/fragment_done_change" >
+        <action
+            android:id="@+id/action_doneChangeFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>

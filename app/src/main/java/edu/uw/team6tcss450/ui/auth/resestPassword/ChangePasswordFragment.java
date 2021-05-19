@@ -29,7 +29,7 @@ import java.nio.charset.Charset;
 import java.util.Objects;
 
 import edu.uw.team6tcss450.R;
-import edu.uw.team6tcss450.databinding.FragmentChangePasswordBinding;
+import edu.uw.team6tcss450.databinding.FragmentChangePasswordSigninBinding;
 import edu.uw.team6tcss450.databinding.FragmentGetEmailBinding;
 import edu.uw.team6tcss450.ui.auth.register.RegisterFragmentDirections;
 import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentArgs;
@@ -48,7 +48,7 @@ import static edu.uw.team6tcss450.utils.PasswordValidator.checkPwdUpperCase;
  */
 public class ChangePasswordFragment extends Fragment {
 
-    FragmentChangePasswordBinding binding;
+    FragmentChangePasswordSigninBinding binding;
     String mEmail;
     String mPassword;
     String mVerificationcode;
@@ -82,7 +82,7 @@ public class ChangePasswordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentChangePasswordBinding.inflate(inflater);
+        binding = FragmentChangePasswordSigninBinding.inflate(inflater);
         return binding.getRoot();
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_change_password, container, false);

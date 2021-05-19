@@ -145,7 +145,7 @@ public class SignInFragment extends Fragment {
 
         Navigation.findNavController(getView())
                 .navigate(SignInFragmentDirections
-                        .actionSignInFragmentToMainActivity(email, jwt, username));
+                        .actionSignInFragmentToMainActivity(jwt, email, username));
         getActivity().finish();
     }
 
@@ -157,7 +157,7 @@ public class SignInFragment extends Fragment {
                         getString(R.string.keys_shared_prefs),
                         Context.MODE_PRIVATE);
 
-        System.out.println("Token from signin fragment: " + prefs.getString(getString(R.string.keys_prefs_jwt), ""));
+//        System.out.println("Token from signin fragment: " + prefs.getString(getString(R.string.keys_prefs_jwt), ""));
 
         if (prefs.contains(getString(R.string.keys_prefs_jwt))) {
             String token = prefs.getString(getString(R.string.keys_prefs_jwt), "");

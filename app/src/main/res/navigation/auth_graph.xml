@@ -69,7 +69,7 @@
         android:id="@+id/changePasswordFragment"
         android:name="edu.uw.team6tcss450.ui.auth.resestPassword.ChangePasswordFragment"
         android:label="Reset Password-2"
-        tools:layout="@layout/fragment_change_password" >
+        tools:layout="@layout/fragment_change_password_signin" >
         <action
             android:id="@+id/action_changePasswordFragment_to_signInFragment"
             app:destination="@id/signInFragment" />

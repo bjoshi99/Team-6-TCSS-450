@@ -23,22 +23,7 @@
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:layout_constraintVertical_bias="0.75" />-->
 
-    <TextView
-        android:id="@+id/textView_theme_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:layout_marginBottom="261dp"
-        android:text="Change theme to"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_logout_setting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.51"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-<!--    <Switch-->
+    <!--    <Switch-->
 <!--        android:id="@+id/switch_setting_darkmode"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
@@ -52,46 +37,51 @@
 <!--        app:layout_constraintTop_toBottomOf="@+id/textView_theme_title"-->
 <!--        app:layout_constraintVertical_bias="0.682" />-->
 
+    <TextView
+        android:id="@+id/textView_theme_title"
+        android:layout_width="wrap_content"
+        android:layout_height="41dp"
+        android:text="Change theme to"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_logout_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.041" />
+
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="121dp"
-        android:layout_height="117dp"
-        android:layout_marginTop="62dp"
+        android:layout_width="140dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/ic_baseline_settings_24"
-        app:layout_constraintBottom_toTopOf="@+id/textView_theme_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.438" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonDarkTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:layout_marginBottom="190dp"
+        android:layout_marginTop="16dp"
         android:text="Dark Theme"
-        app:layout_constraintBottom_toTopOf="@+id/button_logout_setting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintHorizontal_bias="0.202"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_theme_title"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_theme_title" />
 
     <Button
         android:id="@+id/buttonDayTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:layout_marginBottom="190dp"
+        android:layout_marginTop="16dp"
         android:text="Day  Theme"
-        app:layout_constraintBottom_toTopOf="@+id/button_logout_setting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.42"
         app:layout_constraintStart_toEndOf="@+id/buttonDarkTheme"
-        app:layout_constraintTop_toBottomOf="@+id/textView_theme_title"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_theme_title" />
 
     <Button
         android:id="@+id/button_logout_setting"
@@ -101,7 +91,81 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.837" />
+        app:layout_constraintTop_toBottomOf="@+id/button_updatePass_setting"
+        app:layout_constraintVertical_bias="0.192" />
+
+    <Button
+        android:id="@+id/button_updatePass_setting"
+        android:layout_width="153dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="376dp"
+        android:layout_marginEnd="162dp"
+        android:text="Update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    <TextView-->
+<!--        android:id="@+id/textView7"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="288dp"-->
+<!--        android:text="Change Password"-->
+<!--        android:textSize="24sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/edit_curPass_setting"-->
+<!--        android:layout_width="273dp"-->
+<!--        android:layout_height="43dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="Enter current password"-->
+<!--        android:inputType="textPassword"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView7" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/edit_newPass_setting"-->
+<!--        android:layout_width="273dp"-->
+<!--        android:layout_height="43dp"-->
+<!--        android:layout_marginTop="21dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="Enter new password"-->
+<!--        android:inputType="textPassword"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.507"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/edit_curPass_setting" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/edit_renewPass_setting"-->
+<!--        android:layout_width="273dp"-->
+<!--        android:layout_height="43dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:ems="10"-->
+<!--        android:hint="Re-type new password"-->
+<!--        android:inputType="textPassword"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.507"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/edit_newPass_setting" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button_updatePass_setting"-->
+<!--        android:layout_width="153dp"-->
+<!--        android:layout_height="41dp"-->
+<!--        android:layout_marginStart="162dp"-->
+<!--        android:layout_marginTop="544dp"-->
+<!--        android:layout_marginEnd="162dp"-->
+<!--        android:text="Update"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.606"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
