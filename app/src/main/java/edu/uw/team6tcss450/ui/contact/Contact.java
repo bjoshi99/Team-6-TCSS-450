@@ -5,19 +5,19 @@ import java.io.Serializable;
 public class Contact implements Serializable {
 
     private String mName;
-    private String mUserName;
+    private String mNickname;
     private String mEmail;
 
 
     public static class Builder {
         private String mName;
-        private String mUserName;
+        private String mNickname;
         private String mEmail;
 
 
-        public Builder(String theName, String theUserName, String theEmail) {
+        public Builder(String theName, String theNickname, String theEmail) {
             this.mName = theName;
-            this.mUserName = theUserName;
+            this.mNickname = theNickname;
             this.mEmail = theEmail;
         }
 
@@ -27,8 +27,8 @@ public class Contact implements Serializable {
             return this;
         }
 
-        public Builder addUserName(final String val) {
-            mUserName = mUserName + " " + val;
+        public Builder addNickname(final String val) {
+            mNickname = mNickname + " " + val;
             return this;
         }
 
@@ -49,14 +49,14 @@ public class Contact implements Serializable {
 
     public Contact(final Builder builder)  {
         this.mName = builder.mName;
-        this.mUserName = builder.mUserName;
+        this.mNickname = builder.mNickname;
         this.mEmail = builder.mEmail;
 
     }
 
 
-    public String getUserName() {
-        return mUserName;
+    public String getNickname() {
+        return mNickname;
     }
 
 

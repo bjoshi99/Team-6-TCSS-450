@@ -58,12 +58,42 @@
         app:layout_constraintTop_toTopOf="@+id/contact_search_name" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="357dp"
-        android:layout_height="592dp"
+        android:id="@+id/text_search_result"
+        android:layout_width="355dp"
+        android:layout_height="166dp"
+        android:gravity="left"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contact_search_name" />
+        app:layout_constraintTop_toBottomOf="@+id/contact_search_name"
+        app:layout_constraintVertical_bias="0.07" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_send_msg"
+        android:clickable="true"
+        android:visibility="invisible"
+        android:layout_marginStart="296dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_send_black_24dp"
+        app:layout_constraintEnd_toStartOf="@+id/search_send_request"
+        app:layout_constraintStart_toStartOf="@+id/text_search_result"
+        app:layout_constraintTop_toBottomOf="@+id/text_search_result" />
+
+    <ImageView
+        android:id="@+id/search_send_request"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:visibility="invisible"
+        android:layout_marginStart="328dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_add_black_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_search_result"
+        app:layout_constraintTop_toBottomOf="@+id/text_search_result" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

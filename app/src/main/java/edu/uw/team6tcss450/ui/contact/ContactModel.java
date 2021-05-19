@@ -88,33 +88,10 @@ public class ContactModel extends AndroidViewModel {
     private void handleResult(final JSONObject theResult) {
         IntFunction<String> getString =
                 getApplication().getResources()::getString;
-//        try {
-//            JSONObject root = result;
-//            if (root.has(getString.apply(R.string.keys_json_blogs_response))) {
-//                JSONObject response =
-//                        root.getJSONObject(getString.apply(
-//                                R.string.keys_json_blogs_response));
-//                if (response.has(getString.apply(R.string.keys_json_blogs_data))) {
-//                    JSONArray data = response.getJSONArray(
-//                            getString.apply(R.string.keys_json_blogs_data));
-//                    for(int i = 0; i < data.length(); i++) {
-        for(int i = 0; i < 10; i++) {    // TODO test 10 rows of data
-//                        JSONObject jsonBlog = data.getJSONObject(i);
+
+        for(int i = 0; i < 7; i++) {
             Contact contact = new Contact.Builder(
-                    "Contact #" + (i + 1), "testUsername", "testEmail@test.edu")
-                    //.addMessage(System.getProperty("line.separator") + "Here's the second part of the message!")
-//                                jsonBlog.getString(
-//                                        getString.apply(
-//                                                R.string.keys_json_blogs_pubdate)),
-//                                jsonBlog.getString(
-//                                        getString.apply(
-//                                                R.string.keys_json_blogs_title)))
-//                                .addTeaser(jsonBlog.getString(
-//                                        getString.apply(
-//                                                R.string.keys_json_blogs_teaser)))
-//                                .addUrl(jsonBlog.getString(
-//                                        getString.apply(
-//                                                R.string.keys_json_blogs_url)))
+                    "Jimmy", "Hello", "Hello@world")
                     .build();
             if (!mContactList.getValue().contains(contact)) {
                 mContactList.getValue().add(contact);
@@ -131,7 +108,7 @@ public class ContactModel extends AndroidViewModel {
      */
     public void connectGet(String theJwt) {
         String url =
-                "https://tcss450-team6.herokuapp.com/auth";    // TODO change to live data source
+                "https://tcss450-team6.herokuapp.com/auth";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,

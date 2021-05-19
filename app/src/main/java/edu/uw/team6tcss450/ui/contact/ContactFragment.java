@@ -75,12 +75,6 @@ public class ContactFragment extends Fragment {
                    ContactFragmentDirections.actionNavigationContactToContactSearchFragment2()
             );
         });
-
-        //Listener for the search contact button.
-       // binding.buttonSearchContacts.setOnClickListener(button ->
-               // Navigation.findNavController(getView()).navigate(
-               //         ContactsFragmentDirections.actionNavigationContactsToContactSearchFragment()
-               // ));
     }
 
 

@@ -30,6 +30,12 @@
     <string name="edit_search_friend">Search Friend</string>
     <string name="edit_search_friend_by">name, nickname, email</string>
     <string name="edit_search">search</string>
+    <string name="edit_search_requst">Send Friend Request !</string>
+    <string name="edit_search_send_msg">Send Message !</string>
+
+    <string name="edit_search_result_name">User name : </string>
+    <string name="edit_search_result_nickname">User nickname : </string>
+    <string name="edit_search_result_email">User email : </string>
 
 
     <string name="button_setting_signout">Sign Out</string>
