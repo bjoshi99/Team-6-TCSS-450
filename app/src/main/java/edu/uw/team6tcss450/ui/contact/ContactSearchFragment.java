@@ -50,7 +50,7 @@ public class ContactSearchFragment extends Fragment {
 
         mBinding.buttonCancel.setOnClickListener(button -> {
             Navigation.findNavController(getView()).navigate(
-                ContactSearchFragmentDirections.actionContactSearchFragmentToNavigationContact()
+                ContactSearchFragmentDirections.actionContactSearchFragment2ToNavigationContact()
            );
         });
         mBinding.buttonSearch.setOnClickListener(button -> {

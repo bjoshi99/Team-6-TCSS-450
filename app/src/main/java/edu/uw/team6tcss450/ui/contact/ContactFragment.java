@@ -72,7 +72,7 @@ public class ContactFragment extends Fragment {
 
         binding.buttonSearchContacts.setOnClickListener(button -> {
             Navigation.findNavController(getView()).navigate(
-                    ContactFragmentDirections.actionNavigationContactToContactSearchFragment()
+                   ContactFragmentDirections.actionNavigationContactToContactSearchFragment2()
             );
         });
 
