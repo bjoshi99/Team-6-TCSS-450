@@ -27,6 +27,10 @@
     <string name="edit_contact_name">Name</string>
     <string name="edit_contact_status">I am feeling good today !</string>
     <string name="edit_contact_send_msg">Send Message</string>
+    <string name="edit_search_friend">Search Friend</string>
+    <string name="edit_search_friend_by">name, nickname, email</string>
+    <string name="edit_search">search</string>
+
 
     <string name="button_setting_signout">Sign Out</string>
     <string name="checkbox_login_remember">Remember me</string>

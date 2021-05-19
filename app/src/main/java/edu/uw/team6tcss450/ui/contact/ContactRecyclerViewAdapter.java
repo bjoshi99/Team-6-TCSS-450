@@ -6,70 +6,69 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import edu.uw.team6tcss450.R;
+import edu.uw.team6tcss450.databinding.FragmentContactCardBinding;
 
-public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecyclerViewAdapter.ViewHolder> {
+public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecyclerViewAdapter.ContactViewHolder> {
 
-    private List<ContactModel> mUserList;
+    private final List<Contact> mContact;
 
-    public ContactRecyclerViewAdapter(List<ContactModel> mUserList){
-        this.mUserList = mUserList;
+    public ContactRecyclerViewAdapter(List<Contact> List){
+        this.mContact = List;
     }
+
 
     @NonNull
     @Override
-    public ContactRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_contact_card, parent, false);
-
-
-        return new ViewHolder(view);
+    public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup theParent, int theViewType) {
+        return new ContactViewHolder(LayoutInflater
+                .from(theParent.getContext())
+                .inflate(R.layout.fragment_contact_card2, theParent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactRecyclerViewAdapter.ViewHolder holder, int position) {
-        int image = mUserList.get(position).getmImage();
-        String name = mUserList.get(position).getmName();
-        String time = mUserList.get(position).getmCurrTime();
-        String chat = mUserList.get(position).getmCurrChat();
-        String newLine = mUserList.get(position).getmDivider();
-
-        holder.setData(image, name, time, chat, newLine);
+    public void onBindViewHolder(@NonNull ContactRecyclerViewAdapter.ContactViewHolder theHolder, int thePosition) {
+        theHolder.setContacts(mContact.get(thePosition));
     }
+
 
     @Override
     public int getItemCount() {
-        return mUserList.size();
+        return mContact.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private ImageView mImage;
-        private TextView mName;
-        private TextView mCurrTime;
-        private TextView mCurrChat;
-        private TextView mDivider;
+    public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public final View mView;
+        public FragmentContactCardBinding mBinding;
+        private Contact mContact;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mImage = itemView.findViewById(R.id.picture_cat1);
-            mName = itemView.findViewById(R.id.edit_cat1name);
-            mCurrTime = itemView.findViewById(R.id.edit_current_time);
-            mCurrChat = itemView.findViewById(R.id.edit_current_chat);
-            mDivider = itemView.findViewById(R.id.edit_breakline);
+        public ContactViewHolder(View theView) {
+            super(theView);
+            mView = theView;
+            mBinding = FragmentContactCardBinding.bind(theView);
+            theView.setOnClickListener(this);
         }
 
-        public void setData(int image, String name, String time, String chat, String newLine) {
-            mImage.setImageResource(image);
-            mName.setText(name);
-            mCurrTime.setText(time);
-            mCurrChat.setText(chat);
-            mDivider.setText(newLine);
+        @Override
+        public void onClick(View theView) {
+
         }
+
+
+        void setContacts(Contact theContact) {
+            mContact = theContact;
+            mBinding.editUserName.setText(theContact.getUserName());
+            mBinding.editCurrentChat.setText(theContact.getEmail());
+        }
+
+
     }
 }

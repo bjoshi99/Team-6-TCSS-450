@@ -2,9 +2,11 @@ package edu.uw.team6tcss450.ui.contact;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.team6tcss450.R;
+import edu.uw.team6tcss450.databinding.FragmentContactBinding;
+import edu.uw.team6tcss450.model.UserInfoViewModel;
 import edu.uw.team6tcss450.ui.chat.ChatListViewModel;
 
 /**
@@ -25,35 +29,58 @@ import edu.uw.team6tcss450.ui.chat.ChatListViewModel;
  */
 public class ContactFragment extends Fragment {
 
-    List<ContactModel> userList;
-    ContactModel mModel;
+    private ContactModel mModel;
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        init();
-
-        View view = inflater.inflate(R.layout.fragment_contact, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_contact);
-
-        ContactRecyclerViewAdapter listAdapter = new ContactRecyclerViewAdapter(userList);
-        recyclerView.setAdapter(listAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-
-        return view;
+    public ContactFragment(){
+        //Required empty public constructor.
     }
 
-    private void init(){
-        userList = new ArrayList<>();
+    @Override
+    public void onCreate(@Nullable Bundle theSavedInstanceState) {
+        super.onCreate(theSavedInstanceState);
+        UserInfoViewModel model = new ViewModelProvider(getActivity())
+                .get(UserInfoViewModel.class);
 
-        userList.add(new ContactModel(R.drawable.cat1, "CAT", "10:11 AM", "How you doing ?", "--------" ));
-        userList.add(new ContactModel(R.drawable.cat2, "KITTY", "7:11 PM", "TCSS450 is fun.", "--------" ));
-        userList.add(new ContactModel(R.drawable.dog, "WOLF", "12:00 AM", "Earth is flat.", "--------" ));
-        userList.add(new ContactModel(R.drawable.alpaca, "ANIMAL", "1:11 AM", "I am furry.", "--------" ));
+        mModel = new ViewModelProvider(getActivity()).get(ContactModel.class);
+        mModel.connectGet(model.getmJwt());
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater theInflater, ViewGroup theContainer,
+                             Bundle theSavedInstanceState) {
+
+        // Inflate the layout for this fragment
+        return theInflater.inflate(R.layout.fragment_contact, theContainer, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View theView, @Nullable Bundle theSavedInstanceState) {
+        super.onViewCreated(theView, theSavedInstanceState);
+        FragmentContactBinding binding = FragmentContactBinding.bind(getView());
+
+        //Listener for the contacts recycler view adapter.
+        mModel.addContactListObserver(getViewLifecycleOwner(), contactList -> {
+            if (!contactList.isEmpty()) {
+                binding.recyclerviewContact.setAdapter(
+                        mModel.getViewAdapter()
+                );
+
+            }
+        });
+
+        binding.buttonSearchContacts.setOnClickListener(button -> {
+            Navigation.findNavController(getView()).navigate(
+                    ContactFragmentDirections.actionNavigationContactToContactSearchFragment()
+            );
+        });
+
+        //Listener for the search contact button.
+       // binding.buttonSearchContacts.setOnClickListener(button ->
+               // Navigation.findNavController(getView()).navigate(
+               //         ContactsFragmentDirections.actionNavigationContactsToContactSearchFragment()
+               // ));
     }
 
 

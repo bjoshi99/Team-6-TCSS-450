@@ -6,62 +6,73 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="95dp">
+        android:layout_height="95dp"
+        >
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardview_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/cardview_image"
+            app:cardCornerRadius="60dp"
             android:layout_marginTop="20dp"
-            app:cardCornerRadius="60dp">
-
+            android:layout_marginLeft="20dp"
+            >
             <ImageView
-                android:id="@+id/picture_cat1"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/cat1"></ImageView>
+                android:src="@drawable/cat1"
+                android:id="@+id/picture_cat1"
+                >
+            </ImageView>
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/edit_user_name"
             android:layout_width="120dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/cardview_image"
             android:text="@string/edit_contact_name"
-            android:textSize="20sp"></TextView>
+            android:textSize="20sp"
+            android:layout_toRightOf="@+id/cardview_image"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/edit_user_name">
+        </TextView>
+
 
 
         <TextView
-            android:id="@+id/edit_current_chat"
             android:layout_width="140dp"
             android:layout_height="30dp"
-            android:layout_below="@+id/edit_user_name"
             android:layout_marginLeft="20dp"
+            android:layout_below="@+id/edit_user_name"
             android:layout_toRightOf="@+id/cardview_image"
             android:text="What's up man"
             android:textColor="@color/material_on_background_disabled"
-            android:textSize="15sp">
+            android:textSize="15sp"
+            android:id="@+id/edit_current_chat"
+            >
 
         </TextView>
 
         <TextView
-            android:id="@+id/edit_breakline"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_below="@+id/cardview_image"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="-5dp"
+            android:layout_below="@+id/cardview_image"
+            android:id="@+id/edit_breakline"
 
             android:layout_toRightOf="@+id/cardview_image"
             android:text="----------------------------------------------------------------------"
 
-            android:textColor="#CDC7C7"></TextView>
+            android:textColor="#CDC7C7"
+            >
+        </TextView>
 
     </RelativeLayout>
+
+
+
 
 
 </RelativeLayout>
