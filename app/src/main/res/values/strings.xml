@@ -32,6 +32,7 @@
     <string name="edit_search">search</string>
     <string name="edit_search_requst">Send Friend Request !</string>
     <string name="edit_search_send_msg">Send Message !</string>
+    <string name="create_chat">Create Chat</string>
 
     <string name="edit_search_result_name">User name : </string>
     <string name="edit_search_result_nickname">User nickname : </string>
