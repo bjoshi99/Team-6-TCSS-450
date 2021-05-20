@@ -115,9 +115,10 @@ public class ChatListViewModel extends AndroidViewModel {
                     chatID,
                     chatName
             ).build();
-            if (!mChatList.getValue().contains(chat)) {
-                mChatList.getValue().add(chat);
-            }
+                if(!isDuplicate(mChatList.getValue(), chat)){
+                    Log.i("TAG", "handleResult: does the contact added to the mContactList ? " + i);
+                    mChatList.getValue().add(chat);
+                }
         }
             mChatList.setValue(mChatList.getValue());
 
@@ -126,6 +127,15 @@ public class ChatListViewModel extends AndroidViewModel {
             Log.e("ERROR!", e.getMessage());
         }
 
+    }
+
+    private boolean isDuplicate(List<ChatRoom> list, ChatRoom chat){
+        for(ChatRoom c : list){
+            if(c.getChatID() == chat.getChatID()){
+                return true;
+            }
+        }
+        return false;
     }
 
 
