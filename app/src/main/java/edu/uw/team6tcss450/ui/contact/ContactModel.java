@@ -1,6 +1,7 @@
 package edu.uw.team6tcss450.ui.contact;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -90,6 +91,7 @@ public class ContactModel extends AndroidViewModel {
     private void handleResult(final JSONObject theResult){
 
         try{
+
             IntFunction<String> getString =
                     getApplication().getResources()::getString;
 
@@ -107,9 +109,11 @@ public class ContactModel extends AndroidViewModel {
                         name, nickName, email
                 ).build();
 
-                if (!mContactList.getValue().contains(contact)) {
+                if(!isDuplicate(mContactList.getValue(), contact)){
+                    Log.i("TAG", "handleResult: does the contact added to the mContactList ? " + i);
                     mContactList.getValue().add(contact);
                 }
+
             }
 
             mContactList.setValue(mContactList.getValue());
@@ -118,6 +122,15 @@ public class ContactModel extends AndroidViewModel {
             e.printStackTrace();
         }
 
+    }
+
+    private boolean isDuplicate(List<Contact> list, Contact contact){
+        for(Contact c : list){
+            if(c.getEmail().equals(contact.getEmail())){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
