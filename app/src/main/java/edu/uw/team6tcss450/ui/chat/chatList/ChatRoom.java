@@ -9,9 +9,10 @@ public class ChatRoom implements Serializable {
 
     public static class Builder {
         private String mName;
-        private int mID = 1;
+        private int mID;
 
-        public Builder(String theName) {
+        public Builder(int theID, String theName) {
+            this.mID = theID;
             this.mName = theName;
         }
 
@@ -26,7 +27,9 @@ public class ChatRoom implements Serializable {
     }
 
     public ChatRoom(final Builder builder)  {
+        this.mID = builder.mID;
         this.mName = builder.mName;
+
     }
 
     public String getName() {

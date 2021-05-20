@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
+import org.json.JSONObject;
 
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentChatListBinding;
@@ -22,7 +25,10 @@ import edu.uw.team6tcss450.ui.chat.chatList.ChatListFragmentDirections;
  */
 public class ChatListFragment extends Fragment {
     private ChatListViewModel mModel;
-    public FragmentCreateChatBinding mBinding;
+
+    public ChatListFragment(){
+        //Required empty public constructor.
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

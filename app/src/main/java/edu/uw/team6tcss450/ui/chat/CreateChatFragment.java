@@ -50,6 +50,7 @@ public class CreateChatFragment extends Fragment {
 
         mBinding.buttonCreate.setOnClickListener(button -> {
             ChatRoom chatRoom = new ChatRoom.Builder(
+                    1,
                     mBinding.createChatFragment.toString())
                     .build();
 
