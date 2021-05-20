@@ -43,6 +43,8 @@ public class WeatherFragment extends Fragment {
     private final String appid = "3d3d39ca7103cb14be20aa0681bc291d";
     DecimalFormat df = new DecimalFormat("#.##");
 
+    WeatherViewModel model;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,13 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getWeatherDetails(currentCity);
+
+        model =
+                new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
+
+        getWeatherDetails(model.getCity());
+
+//        getWeatherDetails(currentCity);
         binding.buttonCity.setOnClickListener(button -> getWeatherDetails(binding.editTextSearchbar.getText().toString()));
 //        binding.buttonCity.setOnClickListener(this::getWeatherDetails);
     }
@@ -69,6 +77,7 @@ public class WeatherFragment extends Fragment {
         String tempurl = "";
 //        String city = binding.editTextSearchbar.getText().toString();
         currentCity = city;
+        model.setValue(city);
 
         if (city.equals("")) {
             binding.textViewOutput.setText("City field cannot be empty!");
