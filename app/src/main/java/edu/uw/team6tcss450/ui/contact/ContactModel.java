@@ -1,6 +1,7 @@
 package edu.uw.team6tcss450.ui.contact;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +15,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -85,19 +88,49 @@ public class ContactModel extends AndroidViewModel {
      * @param theResult a JSONObject to be used in the future.
      *
      */
-    private void handleResult(final JSONObject theResult) {
-        IntFunction<String> getString =
-                getApplication().getResources()::getString;
+    private void handleResult(final JSONObject theResult){
 
-        for(int i = 0; i < 7; i++) {
-            Contact contact = new Contact.Builder(
-                    "Jimmy", "Hello", "Hello@world")
-                    .build();
-            if (!mContactList.getValue().contains(contact)) {
-                mContactList.getValue().add(contact);
+        try{
+
+            IntFunction<String> getString =
+                    getApplication().getResources()::getString;
+
+            JSONArray jsonArrayContacts = theResult.getJSONArray("contacts");
+
+            for(int i = 0; i < jsonArrayContacts.length(); i++) {
+
+                JSONObject jsonObjectContact = jsonArrayContacts.getJSONObject(i);
+
+                String name = jsonObjectContact.getString("firstName")+ " " + jsonObjectContact.getString("lastName");
+                String email = jsonObjectContact.getString("email");
+                String nickName = jsonObjectContact.getString("userName");
+
+                Contact contact = new Contact.Builder(
+                        name, nickName, email
+                ).build();
+
+                if(!isDuplicate(mContactList.getValue(), contact)){
+                    Log.i("TAG", "handleResult: does the contact added to the mContactList ? " + i);
+                    mContactList.getValue().add(contact);
+                }
+
+            }
+
+            mContactList.setValue(mContactList.getValue());
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private boolean isDuplicate(List<Contact> list, Contact contact){
+        for(Contact c : list){
+            if(c.getEmail().equals(contact.getEmail())){
+                return true;
             }
         }
-        mContactList.setValue(mContactList.getValue());
+        return false;
     }
 
     /**
@@ -108,7 +141,7 @@ public class ContactModel extends AndroidViewModel {
      */
     public void connectGet(String theJwt) {
         String url =
-                "https://tcss450-team6.herokuapp.com/auth";
+                "https://tcss450-team6.herokuapp.com/contacts";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,

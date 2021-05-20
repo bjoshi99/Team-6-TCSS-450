@@ -1,6 +1,7 @@
 package edu.uw.team6tcss450.ui.chat.chatList;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,13 +15,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.IntFunction;
+
+import edu.uw.team6tcss450.R;
 
 public class ChatListViewModel extends AndroidViewModel {
 
@@ -53,9 +60,17 @@ public class ChatListViewModel extends AndroidViewModel {
      * @param theError an error from the server.
      *
      */
-    private void handleError(final VolleyError theError) {
-
-        handleResult(null);
+    private void handleError(final VolleyError error) {
+        if (Objects.isNull(error.networkResponse)) {
+            Log.e("NETWORK ERROR", error.getMessage());
+        }
+        else {
+            String data = new String(error.networkResponse.data, Charset.defaultCharset());
+            Log.e("CLIENT ERROR",
+                    error.networkResponse.statusCode +
+                            " " +
+                            data);
+        }
     }
 
     /**
@@ -85,20 +100,44 @@ public class ChatListViewModel extends AndroidViewModel {
      * @param theResult a JSONObject to be used in the future.
      *
      */
-    private void handleResult(final JSONObject theResult) {
-        IntFunction<String> getString =
-                getApplication().getResources()::getString;
 
-        for(int i = 0; i < 6; i++) {
-            ChatRoom chatRoom = new ChatRoom.Builder(
-                    "Chat Room 1")
-                    .build();
-            if (!mChatList.getValue().contains(chatRoom)) {
-                mChatList.getValue().add(chatRoom);
+    private void handleResult(final JSONObject result) {
+        try {
+            IntFunction<String> getString = getApplication().getResources()::getString;
+            JSONArray jsonArrayChatRooms = result.getJSONArray("chats");
+            for (int i = 0; i < jsonArrayChatRooms.length(); i++) {
+                JSONObject jsonChatRoom = jsonArrayChatRooms.getJSONObject(i);
+
+                int chatID = jsonChatRoom.getInt("chat");
+                String chatName = jsonChatRoom.getString("name");
+
+            ChatRoom chat = new ChatRoom.Builder(
+                    chatID,
+                    chatName
+            ).build();
+                if(!isDuplicate(mChatList.getValue(), chat)){
+                    Log.i("TAG", "handleResult: does the contact added to the mContactList ? " + i);
+                    mChatList.getValue().add(chat);
+                }
+        }
+            mChatList.setValue(mChatList.getValue());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("ERROR!", e.getMessage());
+        }
+
+    }
+
+    private boolean isDuplicate(List<ChatRoom> list, ChatRoom chat){
+        for(ChatRoom c : list){
+            if(c.getChatID() == chat.getChatID()){
+                return true;
             }
         }
-        mChatList.setValue(mChatList.getValue());
+        return false;
     }
+
 
     /**
      * connect to endpoints using heroku app link. Can use get requests from endpoint.
@@ -106,9 +145,10 @@ public class ChatListViewModel extends AndroidViewModel {
      * @param theJwt the jason web token to connect to
      *
      */
+
     public void connectGet(String theJwt) {
         String url =
-                "https://tcss450-team6.herokuapp.com/auth";
+                "https://tcss450-team6.herokuapp.com/contacts/listofchat";
         Request request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,

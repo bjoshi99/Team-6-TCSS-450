@@ -51,16 +51,11 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
             super(theView);
             mView = theView;
             mBinding = FragmentChatRoomBinding.bind(theView);
-            theView.setOnClickListener(this);
+            //theView.setOnClickListener(this);
 
-            mView.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Navigation.findNavController(mView).navigate(
-                            ChatListFragmentDirections.actionChatListFragmentToChatFragment(mChatRoom.getChatID())
-                    );
-                }
-            });
+            mView.setOnClickListener(v -> Navigation.findNavController(mView).navigate(
+                    ChatListFragmentDirections.actionChatListFragmentToChatFragment(mChatRoom.getChatID())
+            ));
         }
 
 
@@ -71,6 +66,7 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
         public void onClick(View theView) {
 
         }
+
 
         void setmChatRoom(ChatRoom theChatRoom) {
             mChatRoom = theChatRoom;
