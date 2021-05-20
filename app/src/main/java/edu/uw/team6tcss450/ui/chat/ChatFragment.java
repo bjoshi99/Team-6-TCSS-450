@@ -16,6 +16,8 @@ import edu.uw.team6tcss450.databinding.FragmentChatBinding;
 import edu.uw.team6tcss450.databinding.FragmentChatListBinding;
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.model.UserInfoViewModel;
+import edu.uw.team6tcss450.ui.auth.resestPassword.ChangePasswordFragmentArgs;
+import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentArgs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +25,7 @@ import edu.uw.team6tcss450.model.UserInfoViewModel;
 public class ChatFragment extends Fragment {
 
     //The chat ID for "global" chat
-    private static final int HARD_CODED_CHAT_ID = 1;
+    private static int HARD_CODED_CHAT_ID = 1;
     private ChatSendViewModel mSendModel;
 
     private ChatViewModel mChatModel;
@@ -41,6 +43,9 @@ public class ChatFragment extends Fragment {
         mChatModel = provider.get(ChatViewModel.class);
         mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getmJwt());
         mSendModel = provider.get(ChatSendViewModel.class);
+
+        ChatFragmentArgs args = ChatFragmentArgs.fromBundle(getArguments());
+        HARD_CODED_CHAT_ID = args.getChatID();
     }
 
     @Override

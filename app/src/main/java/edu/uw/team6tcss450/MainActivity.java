@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.chatFragment, R.id.navigation_contact, R.id.navigation_weather)
+                R.id.navigation_home, R.id.chat_list_fragment, R.id.navigation_contact, R.id.navigation_weather)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if (destination.getId() == R.id.fragmentChat) {
+            if (destination.getId() == R.id.chat_list_fragment) {
                 //When the user navigates to the chats page, reset the new message count.
                 //This will need some extra logic for your project as it should have
                 //multiple chat rooms.
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mNewMessageModel.addMessageCountObserver(this, count -> {
-            BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.chatFragment);
+            BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.chat_list_fragment);
             badge.setMaxCharacterCount(2);
             if (count > 0) {
                 //new messages! update and show the notification badge.

@@ -122,7 +122,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
                         200));
 
                 binding.textMessage.setTextColor(
-                        res.getColor(R.color.white, null));
+                        res.getColor(R.color.nice, null));
 
                 //Round the corners on the right side
                 card.setShapeAppearanceModel(
