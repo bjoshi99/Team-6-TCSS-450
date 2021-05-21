@@ -139,7 +139,7 @@ public class WeatherFragment extends Fragment {
 //        String city = binding.editTextSearchbar.getText().toString();
 
         if (city.equals("")) {
-            binding.textView24hour.setText("City field cannot be empty!");
+            binding.textView24hour.setText("");
         } else {
             tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
 
@@ -169,7 +169,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textView24hour.setText("Please enter a valid city.");
+                    binding.textView24hour.setText("");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -182,7 +182,7 @@ public class WeatherFragment extends Fragment {
 //        String city = binding.editTextSearchbar.getText().toString();
 
         if (city.equals("")) {
-            binding.textViewForecast.setText("City field cannot be empty!");
+            binding.textViewForecast.setText("");
         } else {
             tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
 
@@ -254,7 +254,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textViewForecast.setText("Please enter a valid city.");
+                    binding.textViewForecast.setText("");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());

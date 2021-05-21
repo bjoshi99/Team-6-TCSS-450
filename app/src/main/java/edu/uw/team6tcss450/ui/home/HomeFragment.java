@@ -172,7 +172,8 @@ public class HomeFragment extends Fragment {
             }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                binding.textDescriptionHome.setText(error.toString());
+//                binding.textDescriptionHome.setText(error.toString());
+                grabWeatherDetails("Seattle");
             }
         });
         RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());

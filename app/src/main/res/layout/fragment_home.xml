@@ -44,7 +44,7 @@
             android:id="@+id/datehome"
             android:layout_width="wrap_content"
             android:layout_height="29dp"
-            android:text="Date"
+            android:text="May 20, 2021"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -171,10 +171,10 @@
             android:textSize="23sp"
             app:layout_constraintBottom_toTopOf="@+id/list_home"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.307"
+            app:layout_constraintHorizontal_bias="0.56"
             app:layout_constraintStart_toEndOf="@+id/text_wind_home"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.911" />
+            app:layout_constraintVertical_bias="0.918" />
 
         <TextView
             android:id="@+id/text_wind_home"
