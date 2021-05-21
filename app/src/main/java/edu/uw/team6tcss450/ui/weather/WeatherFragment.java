@@ -109,11 +109,11 @@ public class WeatherFragment extends Fragment {
                         String cityName = jsonResponse.getString("name");
 
                         String output = "Current weather of " + cityName + " (" + countryName + ")"
-                                + "\nTemp: " + df.format(temp) + " °F"
+                                + "\nTemp: " + df.format(temp) + "° F"
                                 + "\nFeels Like: " + df.format(feelsLike) + " °F"
                                 + "\nHumidity: " + humidity + "%"
                                 + "\nDescription: " + description
-                                + "\nWind Speed: " + wind + "m/s"
+                                + "\nWind Speed: " + wind + "mph"
                                 + "\nCloudiness: " + clouds + "%"
                                 + "\nPressure: " + pressure + "hPa";
                         binding.textViewOutput.setText(output);
@@ -169,7 +169,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textViewOutput.setText("Please enter a valid city.");
+                    binding.textView24hour.setText("Please enter a valid city.");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -254,7 +254,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textViewOutput.setText(error.toString());
+                    binding.textViewForecast.setText(error.toString());
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());

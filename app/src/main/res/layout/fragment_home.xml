@@ -44,7 +44,7 @@
             android:id="@+id/datehome"
             android:layout_width="wrap_content"
             android:layout_height="29dp"
-            android:text="May 6 2021"
+            android:text="Date"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -119,12 +119,12 @@
             android:textAlignment="center"
             android:textSize="50sp"
             app:layout_constraintBottom_toTopOf="@+id/list_home"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/image_icon_home"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.104" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/image_icon_home"
             android:layout_width="129dp"
             android:layout_height="126dp"
             android:layout_marginTop="2dp"
@@ -144,7 +144,7 @@
             app:layout_constraintBottom_toTopOf="@+id/list_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.059"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/image_icon_home"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.37" />
 
@@ -191,7 +191,7 @@
             app:layout_constraintVertical_bias="0.518" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/text_description_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
