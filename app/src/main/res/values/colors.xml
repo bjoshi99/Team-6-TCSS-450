@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="nice">#4DC177</color>
+    <color name="notPURPLEEEE">#CDCDCD</color>
+    <color name="idkWhatColorThisIs">#A4A4A4</color>
 </resources>
 <!--<resources>-->
 <!--    <color name="purple_200">#FFBB86FC</color>-->
