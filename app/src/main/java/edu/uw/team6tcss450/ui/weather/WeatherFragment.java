@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -71,6 +72,9 @@ public class WeatherFragment extends Fragment {
         getWeatherDetails(model.getCity());
 
         binding.buttonCity.setOnClickListener(button -> getWeatherDetails(binding.editTextSearchbar.getText().toString()));
+        binding.buttonMap.setOnClickListener(button -> {
+            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavigationWeatherToLocationFragment());
+        });
     }
 
     public void getWeatherDetails(String city) {

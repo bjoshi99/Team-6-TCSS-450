@@ -28,7 +28,18 @@
         android:id="@+id/navigation_weather"
         android:name="edu.uw.team6tcss450.ui.weather.WeatherFragment"
         android:label="@string/title_weather"
-        tools:layout="@layout/fragment_weather" />
+        tools:layout="@layout/fragment_weather" >
+        <action
+            android:id="@+id/action_navigation_weather_to_location_fragment"
+            app:destination="@id/location_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/location_fragment"
+        android:name="edu.uw.team6tcss450.ui.weather.LocationFragment"
+        android:label="location_fragment"
+        tools:layout="@layout/fragment_location" />
+
     <fragment
         android:id="@+id/settingFragment2"
         android:name="edu.uw.team6tcss450.ui.home.SettingFragment"
