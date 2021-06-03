@@ -25,6 +25,7 @@ import edu.uw.team6tcss450.model.LocationViewModel;
 
 public class LocationFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private LocationViewModel mModel;
+    private WeatherViewModel weatherModel;
     private GoogleMap mMap;
 
     public LocationFragment() {
@@ -38,13 +39,15 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         mModel = new ViewModelProvider(getActivity())
                 .get(LocationViewModel.class);
         mModel.addLocationObserver(getViewLifecycleOwner(), location ->
-                binding.textLatLong.setText(location.toString()));
+                binding.textLatLong.setText(location.getLatitude() + ", " + location.getLongitude()));
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         //add this fragment as the OnMapReadyCallback -> See onMapReady()
         mapFragment.getMapAsync(this);
+
+        weatherModel = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
     }
 
     @Override
@@ -80,5 +83,8 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback, Go
         mMap.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                         latLng, mMap.getCameraPosition().zoom));
+
+        weatherModel.setLatLon(latLng.toString());
+        weatherModel.setWhatever(false);
     }
 }

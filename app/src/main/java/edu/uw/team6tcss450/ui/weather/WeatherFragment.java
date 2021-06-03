@@ -35,12 +35,13 @@ import java.util.List;
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
 import edu.uw.team6tcss450.databinding.FragmentWeatherBinding;
+import edu.uw.team6tcss450.model.LocationViewModel;
 import edu.uw.team6tcss450.ui.auth.signin.SignInViewModel;
 
 public class WeatherFragment extends Fragment {
     private FragmentWeatherBinding binding;
-    private WeatherViewModel mWeatherModel;
     private List<WeatherModel> weatherList;
+    private LocationViewModel locationModel;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
     private final String urlForecast = "https://api.openweathermap.org/data/2.5/forecast";
@@ -52,8 +53,6 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mWeatherModel = new ViewModelProvider(getActivity())
-                .get(WeatherViewModel.class);
     }
 
     @Override
@@ -69,22 +68,38 @@ public class WeatherFragment extends Fragment {
         weatherList = new ArrayList<>();
         model = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
 
-        getWeatherDetails(model.getCity());
+        locationModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
 
-        binding.buttonCity.setOnClickListener(button -> getWeatherDetails(binding.editTextSearchbar.getText().toString()));
+        getWeatherDetails(model.getZip());
+
+        binding.buttonCity.setOnClickListener(button -> {
+            model.setWhatever(true);
+            getWeatherDetails(binding.editTextSearchbar.getText().toString());
+        });
         binding.buttonMap.setOnClickListener(button -> {
             Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavigationWeatherToLocationFragment());
         });
+        binding.buttonCurrent.setOnClickListener(button -> {
+            // TODO
+        });
     }
 
-    public void getWeatherDetails(String city) {
+    public void getWeatherDetails(String input) {
         String tempurl = "";
-        model.setValue(city);
+        model.setZip(input);
 
-        if (city.equals("")) {
+        if (input.equals("")) {
             binding.textViewMainCity.setText("City field cannot be empty!");
         } else {
-            tempurl = url + "?q=" + city + "&appid=" + appid + "&units=imperial";
+            if (model.getWhatever()) {
+                tempurl = url + "?zip=" + input + "&appid=" + appid + "&units=imperial";
+            } else {
+                String lat = model.getLatLon().substring(model.getLatLon().indexOf('(') + 1,
+                        model.getLatLon().indexOf(','));
+                String lon = model.getLatLon().substring(model.getLatLon().indexOf(',') + 1,
+                        model.getLatLon().indexOf(')'));
+                tempurl = url + "?lat=" + lat + "&lon=" + lon + "&appid=" + appid + "&units=imperial";
+            }
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
                 @Override
@@ -97,6 +112,9 @@ public class WeatherFragment extends Fragment {
                         String description = jsonObjectWeather.getString("description").toLowerCase();
 
                         JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
+
+                        String cityName = jsonResponse.getString("name");
+
                         double temp = jsonObjectMain.getDouble("temp");
 
                         int iconNum;
@@ -107,7 +125,7 @@ public class WeatherFragment extends Fragment {
                         else if (description.contains("snow")) iconNum = R.drawable.snow;
                         else iconNum = R.drawable.ic_cloud_black_24dp;
 
-                        binding.textViewMainCity.setText(city);
+                        binding.textViewMainCity.setText(cityName);
                         binding.textViewMainTemp.setText(df.format(temp) + "° F");
                         binding.textViewMainDescription.setText(description);
                         binding.imageViewMainIcon.setImageResource(iconNum);
@@ -125,18 +143,25 @@ public class WeatherFragment extends Fragment {
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
             queue.add(stringRequest);
         }
-        get24HourForecastDetails(city);
-        getForecastDetails(city);
+        get24HourForecastDetails(input);
+        getForecastDetails(input);
     }
 
-    public void get24HourForecastDetails(String city) {
+    public void get24HourForecastDetails(String input) {
         String tempurl = "";
-//        String city = binding.editTextSearchbar.getText().toString();
 
-        if (city.equals("")) {
+        if (input.equals("")) {
             binding.textViewMainTemp.setText("");
         } else {
-            tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
+            if (model.getWhatever()) {
+                tempurl = urlForecast + "?zip=" + input + "&appid=" + appid + "&units=imperial";
+            } else {
+                String lat = model.getLatLon().substring(model.getLatLon().indexOf('(') + 1,
+                        model.getLatLon().indexOf(','));
+                String lon = model.getLatLon().substring(model.getLatLon().indexOf(',') + 1,
+                        model.getLatLon().indexOf(')'));
+                tempurl = urlForecast + "?lat=" + lat + "&lon=" + lon + "&appid=" + appid + "&units=imperial";
+            }
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
                 @Override
@@ -200,13 +225,21 @@ public class WeatherFragment extends Fragment {
         }
     }
 
-    public void getForecastDetails(String city) {
+    public void getForecastDetails(String input) {
         String tempurl = "";
 
-        if (city.equals("")) {
+        if (input.equals("")) {
             binding.textViewMainDescription.setText("");
         } else {
-            tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
+            if (model.getWhatever()) {
+                tempurl = urlForecast + "?zip=" + input + "&appid=" + appid + "&units=imperial";
+            } else {
+                String lat = model.getLatLon().substring(model.getLatLon().indexOf('(') + 1,
+                        model.getLatLon().indexOf(','));
+                String lon = model.getLatLon().substring(model.getLatLon().indexOf(',') + 1,
+                        model.getLatLon().indexOf(')'));
+                tempurl = urlForecast + "?lat=" + lat + "&lon=" + lon + "&appid=" + appid + "&units=imperial";
+            }
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
                 @Override

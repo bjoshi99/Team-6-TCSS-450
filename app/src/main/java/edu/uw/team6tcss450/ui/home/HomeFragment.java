@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
                 .get(UserInfoViewModel.class);
 
         modelWeather = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
-        grabWeatherDetails(modelWeather.getCity());
+        grabWeatherDetails(modelWeather.getZip());
 
         grabDate();
         binding.datehome.setText(grabDate());
