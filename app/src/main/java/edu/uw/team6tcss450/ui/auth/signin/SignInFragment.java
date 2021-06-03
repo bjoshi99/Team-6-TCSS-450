@@ -279,7 +279,7 @@ public class SignInFragment extends Fragment {
                 }
                 else {
                     try {
-                        System.out.println("Json: "+response.toString());
+//                        System.out.println("Json: "+response.toString());
 
                         if((response.getString("message").equals("Email resent Successfully."))){
                             Toast.makeText(getActivity(), "Email resent successfully!", Toast.LENGTH_SHORT).show();

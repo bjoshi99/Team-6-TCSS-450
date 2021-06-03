@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout8"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.contact.ContactRequestFragment"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:id="@+id/text_title_contRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="68dp"
+            android:background="#65DBF1"
+            android:text="Add Me"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/text_name_contRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginBottom="35dp"
+            android:text="Hello There"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/text_email_contRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="61dp"
+            android:layout_marginEnd="217dp"
+            android:text="abc@unknown.com"
+            android:textAlignment="textStart"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/imageButton_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="262dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="107dp"
+            android:layout_marginBottom="7dp"
+            android:src="@drawable/ic_baseline_check_box_24" />
+
+        <ImageButton
+            android:id="@+id/imageButton_decline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="351dp"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="7dp"
+            android:src="@drawable/ic_baseline_cancel_24" />
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/text_message"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentStart="true"-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_marginLeft="66dp"-->
+        <!--            android:layout_marginTop="0dp"-->
+        <!--            android:layout_marginEnd="0dp"-->
+        <!--            android:layout_marginBottom="0dp"-->
+        <!--            android:text="Hey, Go get a sleep, we have meeting in the morning."-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:textSize="18sp" />-->
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

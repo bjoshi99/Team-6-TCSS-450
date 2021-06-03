@@ -1,13 +1,13 @@
 package edu.uw.team6tcss450.ui.home;
 
-public class HomeModel {
+public class HomeNotificationDetail {
 
     public String getmMsgFrom() {
         return mMsgFrom;
     }
 
     public String getmInChat() {
-        return mInChatID;
+        return mID;
     }
 
     public String getmMsg() {
@@ -18,12 +18,12 @@ public class HomeModel {
         return mMsgTime;
     }
 
-    private String mMsgFrom, mInChatID, mMsg;
+    private String mMsgFrom, mID, mMsg;
     private String mMsgTime;
 
-    HomeModel(String msg, String from, String chatId, String time){
+    HomeNotificationDetail(String msg, String from, String chatId, String time){
         this.mMsg = msg;
-        this.mInChatID = chatId;
+        this.mID = chatId;
         this.mMsgFrom = from;
         this.mMsgTime = time;
     }

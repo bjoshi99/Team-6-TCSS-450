@@ -1,18 +1,20 @@
 package edu.uw.team6tcss450.ui.home;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,6 +35,8 @@ import java.util.Date;
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentHomeBinding;
 import edu.uw.team6tcss450.model.UserInfoViewModel;
+import edu.uw.team6tcss450.ui.contact.ContactModel;
+import edu.uw.team6tcss450.ui.contact.ContactRecyclerViewAdapter;
 import edu.uw.team6tcss450.ui.weather.WeatherViewModel;
 
 /**
@@ -40,9 +44,10 @@ import edu.uw.team6tcss450.ui.weather.WeatherViewModel;
  */
 public class HomeFragment extends Fragment {
 
-    private ArrayList<HomeModel> notifcationList;
+    private ArrayList<String> notifcationList;
     private FragmentHomeBinding binding;
     private WeatherViewModel modelWeather;
+    private HomeViewModel mHomeModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,21 +58,21 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        makeUp();
+//        makeUp();
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView_Home);
 
-        HomeRecyclerViewAdapter listAdapter = new HomeRecyclerViewAdapter(notifcationList);
-        mRecyclerView.setAdapter(listAdapter);
+//        HomeRecyclerViewAdapter listAdapter = new HomeRecyclerViewAdapter(notifcationList);
+//        mRecyclerView.setAdapter(listAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
         binding = FragmentHomeBinding.inflate(inflater);
-        return binding.getRoot();
+//        return binding.getRoot();
 
 
-//        return view;
+        return view;
 
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_home, container, false);
@@ -82,21 +87,44 @@ public class HomeFragment extends Fragment {
         modelWeather = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
         grabWeatherDetails(modelWeather.getCity());
 
+        mHomeModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+
         grabDate();
         binding.datehome.setText(grabDate());
+        ((TextView)(getView().findViewById(R.id.datehome))).setText(grabDate());
 
         //for now, email is displayed on home but for future, we can change it to username
         FragmentHomeBinding.bind(getView()).texttile.setText("Welcome " + model.getEmail() + " !");
+
+        //Listener for the contacts recycler view adapter.
+        mHomeModel.addNotificationListObserver(getViewLifecycleOwner(), notificationList -> {
+            if (!notificationList.isEmpty()) {
+//                binding.RecyclerViewHome.setAdapter(
+//                        new HomeRecyclerViewAdapter(notificationList)
+//                );
+                RecyclerView rv = (RecyclerView)(getView().findViewById(R.id.RecyclerView_Home));
+
+                //to pass navigation controller to view holder
+                NavController cntrl = Navigation.findNavController(getActivity(),
+                        R.id.nav_host_fragment);
+
+                (rv).setAdapter(
+                        new HomeRecyclerViewAdapter(notificationList, mHomeModel)
+                );
+                rv.getAdapter().notifyDataSetChanged();
+                rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
+            }
+        });
     }
 
     private void makeUp() {
         notifcationList = new ArrayList<>();
-
-        notifcationList.add(new HomeModel("Updated layout.", "Alexis" , "123", "9:04 pm"));
-        notifcationList.add(new HomeModel("Good night!", "Jun" , "123", "11:15 pm"));
-        notifcationList.add(new HomeModel("Just found this bug!", "Rj" , "123", "6:48 pm"));
-        notifcationList.add(new HomeModel("RJ found a bug, need to fix asap.", "Bhavesh" , "123", "7:55 pm"));
-        notifcationList.add(new HomeModel("Upcoming meeting: 9:30 am.", "Charles" , "123", "10:00 pm"));
+        notifcationList.add("New message request from unknown");
+//        notifcationList.add(new HomeNotificationDetail("Updated layout.", "Alexis" , "123", "9:04 pm"));
+//        notifcationList.add(new HomeNotificationDetail("Good night!", "Jun" , "123", "11:15 pm"));
+//        notifcationList.add(new HomeNotificationDetail("Just found this bug!", "Rj" , "123", "6:48 pm"));
+//        notifcationList.add(new HomeNotificationDetail("RJ found a bug, need to fix asap.", "Bhavesh" , "123", "7:55 pm"));
+//        notifcationList.add(new HomeNotificationDetail("Upcoming meeting: 9:30 am.", "Charles" , "123", "10:00 pm"));
     }
 
     private String grabDate() {
@@ -165,6 +193,14 @@ public class HomeFragment extends Fragment {
                     binding.textHumidityHome.setText(outputHumidity);
                     binding.textWindHome.setText(outputWindSpeed);
                     binding.textDescriptionHome.setText(outputDescription);
+
+                    //without using binding objects
+                    ((TextView)(getView().findViewById(R.id.text_temp_home))).setText(outputTemp);
+                    ((TextView)(getView().findViewById(R.id.text_city_home))).setText(outputCityName);
+                    ((TextView)(getView().findViewById(R.id.text_minmax_home))).setText(outputMinMax);
+                    ((TextView)(getView().findViewById(R.id.text_humidity_home))).setText(outputHumidity);
+                    ((TextView)(getView().findViewById(R.id.text_wind_home))).setText(outputWindSpeed);
+                    ((TextView)(getView().findViewById(R.id.text_description_home))).setText(outputDescription);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     }

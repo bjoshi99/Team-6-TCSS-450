@@ -96,12 +96,12 @@
 
     <Button
         android:id="@+id/button_updatePass_setting"
-        android:layout_width="153dp"
+        android:layout_width="wrap_content"
         android:layout_height="41dp"
         android:layout_marginStart="162dp"
         android:layout_marginTop="376dp"
         android:layout_marginEnd="162dp"
-        android:text="Update"
+        android:text="Change Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -58,7 +58,9 @@ public class ContactModel extends AndroidViewModel {
      */
     private void handleError(final VolleyError theError) {
 
-        handleResult(null);
+//        handleResult(null);
+        System.out.println("***********************************************************");
+        System.out.println("Error : " + theError.toString());
     }
 
     /**
@@ -81,6 +83,13 @@ public class ContactModel extends AndroidViewModel {
         return mViewAdapter;
     }
 
+
+    public void addRequest(Contact ct){
+//        System.out.println("******************************** \n new notification \n  " + ct);
+        if(!isDuplicate(mContactList.getValue(), ct)) {
+            mContactList.getValue().add(0, ct);
+        }
+    }
 
     /**
      * Method that creates dummy data for the recycler view.
@@ -126,7 +135,7 @@ public class ContactModel extends AndroidViewModel {
 
     private boolean isDuplicate(List<Contact> list, Contact contact){
         for(Contact c : list){
-            if(c.getEmail().equals(contact.getEmail())){
+            if(c.getEmail().equals(contact.getEmail()) && (c.req == contact.req)){
                 return true;
             }
         }
@@ -152,6 +161,8 @@ public class ContactModel extends AndroidViewModel {
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", theJwt);
+                System.out.println("********************************************************");
+                System.out.println("The jwt: " + theJwt);
                 return headers;
             }
         };

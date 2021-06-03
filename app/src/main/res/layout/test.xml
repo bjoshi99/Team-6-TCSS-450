@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutChat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp">
+
+    <RelativeLayout
+        android:id="@+id/message_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/test_arrow"
+        android:background="@drawable/bg_msg_left"
+        android:paddingRight="5dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/text_sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColorHint="#8D9295"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/text_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="230dp"
+            android:layout_below="@+id/text_sender"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="0dp"
+            android:text="demo Text"
+            android:textColor="#222"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/msg_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/text_message"
+            android:layout_toEndOf="@+id/text_message"
+            android:textColorHint="#888" />
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/test_arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="-6dp"
+        android:background="@null"
+        android:scaleX="-1.5"
+        android:src="@drawable/v_bubble_corner_left" />
+</RelativeLayout>
+
+    <!--<com.google.android.material.tabs.TabLayout-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    xmlns:android="http://schemas.android.com/apk/res/android">-->
+
+    <!--    <com.google.android.material.tabs.TabItem-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Contacts"-->
+    <!--        />-->
+
+    <!--    <com.google.android.material.tabs.TabItem-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Search"-->
+    <!--        />-->
+
+    <!--    <com.google.android.material.tabs.TabItem-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Request"-->
+    <!--        />-->
+
+    <!--</com.google.android.material.tabs.TabLayout>-->
