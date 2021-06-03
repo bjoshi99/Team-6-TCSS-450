@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -44,7 +45,7 @@ import edu.uw.team6tcss450.ui.weather.WeatherViewModel;
  */
 public class HomeFragment extends Fragment {
 
-    private ArrayList<String> notifcationList;
+    private ArrayList<String> notifcationList = new ArrayList<>();
     private FragmentHomeBinding binding;
     private WeatherViewModel modelWeather;
     private HomeViewModel mHomeModel;
@@ -63,7 +64,9 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.RecyclerView_Home);
 
-//        HomeRecyclerViewAdapter listAdapter = new HomeRecyclerViewAdapter(notifcationList);
+//        mHomeModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+//
+//        HomeRecyclerViewAdapter listAdapter = new HomeRecyclerViewAdapter(notifcationList, mHomeModel);
 //        mRecyclerView.setAdapter(listAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -89,6 +92,17 @@ public class HomeFragment extends Fragment {
 
         mHomeModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
 
+        ImageView img = ((ImageView) ((getView().findViewById(R.id.button_clear))));
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHomeModel.deleteAll();
+
+                //notify changes
+                mHomeModel.mViewAdapter.notifyDataSetChanged();
+            }
+        });
+
         grabDate();
         binding.datehome.setText(grabDate());
         ((TextView)(getView().findViewById(R.id.datehome))).setText(grabDate());
@@ -109,9 +123,11 @@ public class HomeFragment extends Fragment {
                         R.id.nav_host_fragment);
 
                 (rv).setAdapter(
-                        new HomeRecyclerViewAdapter(notificationList, mHomeModel)
+//                        new HomeRecyclerViewAdapter(notificationList, mHomeModel)
+                        mHomeModel.getViewAdapter()
                 );
                 rv.getAdapter().notifyDataSetChanged();
+                mHomeModel.mViewAdapter.notifyDataSetChanged();
                 rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
             }
         });
@@ -187,12 +203,12 @@ public class HomeFragment extends Fragment {
 
 //                    Picasso.with(context).load(imageID).into(imageView);
 
-                    binding.textTempHome.setText(outputTemp);
-                    binding.textCityHome.setText(outputCityName);
-                    binding.textMinmaxHome.setText(outputMinMax);
-                    binding.textHumidityHome.setText(outputHumidity);
-                    binding.textWindHome.setText(outputWindSpeed);
-                    binding.textDescriptionHome.setText(outputDescription);
+//                    binding.textTempHome.setText(outputTemp);
+//                    binding.textCityHome.setText(outputCityName);
+//                    binding.textMinmaxHome.setText(outputMinMax);
+//                    binding.textHumidityHome.setText(outputHumidity);
+//                    binding.textWindHome.setText(outputWindSpeed);
+//                    binding.textDescriptionHome.setText(outputDescription);
 
                     //without using binding objects
                     ((TextView)(getView().findViewById(R.id.text_temp_home))).setText(outputTemp);

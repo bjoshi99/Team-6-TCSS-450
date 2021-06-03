@@ -1,5 +1,9 @@
 package edu.uw.team6tcss450.ui.chat.chatSettings;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,8 +26,6 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.Charset;
@@ -32,15 +34,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.IntFunction;
+
 
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentChatListBinding;
 import edu.uw.team6tcss450.databinding.FragmentChatSettingsBinding;
 import edu.uw.team6tcss450.io.RequestQueueSingleton;
+
 import edu.uw.team6tcss450.model.UserInfoViewModel;
+import edu.uw.team6tcss450.ui.auth.signin.SignInFragmentArgs;
 import edu.uw.team6tcss450.ui.chat.ChatFragmentArgs;
 import edu.uw.team6tcss450.ui.chat.chatList.ChatListFragmentDirections;
+import edu.uw.team6tcss450.ui.chat.chatList.ChatListRecyclerViewAdapter;
 import edu.uw.team6tcss450.ui.chat.chatList.ChatListViewModel;
 import edu.uw.team6tcss450.ui.chat.chatList.ChatRoom;
 import edu.uw.team6tcss450.ui.contact.Contact;
@@ -49,6 +54,10 @@ import edu.uw.team6tcss450.ui.contact.ContactModel;
 public class ChatSettingsFragment extends Fragment {
     private ContactModel mModel;
     private UserInfoViewModel mUserModel;
+    private View mView;
+    private ChatListViewModel mChatListMode;
+
+    private int currentChatID;
 
     public ChatSettingsFragment(){
         //Required empty public constructor.
@@ -68,6 +77,7 @@ public class ChatSettingsFragment extends Fragment {
 
         mUserModel = provider.get(UserInfoViewModel.class);
         mModel = provider.get(ContactModel.class);
+        mChatListMode = provider.get(ChatListViewModel.class);
         mModel.connectGet(mUserModel.getmJwt());
     }
 
@@ -75,9 +85,14 @@ public class ChatSettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mView = view;
+
         FragmentChatSettingsBinding binding = FragmentChatSettingsBinding.bind(getView());
         ChatSettingsFragmentArgs args = ChatSettingsFragmentArgs.fromBundle(getArguments());
         binding.chatRoomName.setText(args.getChatName());
+
+        currentChatID = args.getChatID();
+        binding.leaveButton.setOnClickListener(this::onClickLeave);
 
         mModel.addContactListObserver(getViewLifecycleOwner(), contactList -> {
             System.out.println(contactList);
@@ -129,9 +144,75 @@ public class ChatSettingsFragment extends Fragment {
             });
 
         });
+
     }
 
+    private void onClickLeave(View v){
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //Setting message manually and performing action on button click
+        builder.setMessage("You are about to leave this Chat Room!!")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        String email = mUserModel.getEmail();
+                        deleteUser(email);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'Cancel' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Are You Sure ?");
+        alert.show();
+    }
+
+    private void deleteUser(String theEmail){
+        System.out.println("Inside the delete end point");
+        String url = mView.getContext().getResources().getString(R.string.base_url) +
+                "chats/" + currentChatID + "/" + theEmail;
+
+        String jwt = mUserModel.getmJwt();
+
+        Request request = new JsonObjectRequest(
+                Request.Method.DELETE,
+                url,
+                null,
+                this::handleSuccess,
+                this::handleError
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueueSingleton.getInstance(mView.getContext().getApplicationContext())
+                .addToRequestQueue(request);
+    }
+
+    private void handleSuccess(JSONObject jsonObject) {
+
+        System.out.println("Room got deleted");
+
+        mChatListMode.getViewAdapter().deleteChatRoom(currentChatID);
+        mChatListMode.getViewAdapter().notifyDataSetChanged();
+
+        //navigate to list of chats
+        Navigation.findNavController(mView).navigate(R.id.chat_list_fragment);
+    }
 
     private void handleError(final VolleyError error) {
         if (Objects.isNull(error.networkResponse)) {
@@ -145,4 +226,5 @@ public class ChatSettingsFragment extends Fragment {
                             data);
         }
     }
+
 }
