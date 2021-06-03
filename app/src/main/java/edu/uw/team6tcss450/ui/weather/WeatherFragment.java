@@ -80,7 +80,10 @@ public class WeatherFragment extends Fragment {
             Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavigationWeatherToLocationFragment());
         });
         binding.buttonCurrent.setOnClickListener(button -> {
-            // TODO
+            model.setWhatever(false);
+            System.out.println("(" + locationModel.getCurrentLocation().getLongitude() + "," + locationModel.getCurrentLocation().getLatitude() + ")");
+            model.setLatLon("(" + locationModel.getCurrentLocation().getLatitude() + "," + locationModel.getCurrentLocation().getLongitude() + ")");
+            getWeatherDetails(model.getLatLon());
         });
     }
 
