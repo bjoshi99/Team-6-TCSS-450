@@ -14,6 +14,7 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.team6tcss450.MainActivity;
@@ -52,8 +53,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 
         holder.setData(msg);
 
-//        HomeRecyclerViewAdapter.this.notifyDataSetChanged();
+//        this.notifyDataSetChanged();
 //        holder.setData(msg, time, from, chatid);
+    }
+
+    public void deleteAll(){
+        mNotificationList.clear();
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -108,6 +114,8 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
                 mView.findViewById(R.id.card_root_home).setBackgroundColor(ContextCompat.getColor(mView.getContext(), R.color.contactReqNotificationColor));
 
             this.mMsg.setText(msg);
+
+//            HomeRecyclerViewAdapter.this.notifyDataSetChanged();
 //                        this.mMsg.setText(msg);
 //            this.mTime.setText(time);
 //            this.mMsgFrom.setText(from);
