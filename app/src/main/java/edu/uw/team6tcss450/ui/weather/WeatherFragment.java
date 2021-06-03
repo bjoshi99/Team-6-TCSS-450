@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,18 +27,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
 import edu.uw.team6tcss450.databinding.FragmentWeatherBinding;
+import edu.uw.team6tcss450.model.LocationViewModel;
 import edu.uw.team6tcss450.ui.auth.signin.SignInViewModel;
 
 public class WeatherFragment extends Fragment {
     private FragmentWeatherBinding binding;
-    private WeatherViewModel mWeatherModel;
+    private List<WeatherModel> weatherList;
+    private LocationViewModel locationModel;
 
-    private String currentCity = "Seattle";
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
     private final String urlForecast = "https://api.openweathermap.org/data/2.5/forecast";
     private final String appid = "3d3d39ca7103cb14be20aa0681bc291d";
@@ -48,8 +53,6 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mWeatherModel = new ViewModelProvider(getActivity())
-                .get(WeatherViewModel.class);
     }
 
     @Override
@@ -62,27 +65,41 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        weatherList = new ArrayList<>();
+        model = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
 
-        model =
-                new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
+        locationModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
 
-        getWeatherDetails(model.getCity());
+        getWeatherDetails(model.getZip());
 
-//        getWeatherDetails(currentCity);
-        binding.buttonCity.setOnClickListener(button -> getWeatherDetails(binding.editTextSearchbar.getText().toString()));
-//        binding.buttonCity.setOnClickListener(this::getWeatherDetails);
+        binding.buttonCity.setOnClickListener(button -> {
+            model.setWhatever(true);
+            getWeatherDetails(binding.editTextSearchbar.getText().toString());
+        });
+        binding.buttonMap.setOnClickListener(button -> {
+            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavigationWeatherToLocationFragment());
+        });
+        binding.buttonCurrent.setOnClickListener(button -> {
+            // TODO
+        });
     }
 
-    public void getWeatherDetails(String city) {
+    public void getWeatherDetails(String input) {
         String tempurl = "";
-//        String city = binding.editTextSearchbar.getText().toString();
-        currentCity = city;
-        model.setValue(city);
+        model.setZip(input);
 
-        if (city.equals("")) {
-            binding.textViewOutput.setText("City field cannot be empty!");
+        if (input.equals("")) {
+            binding.textViewMainCity.setText("City field cannot be empty!");
         } else {
-            tempurl = url + "?q=" + city + "&appid=" + appid + "&units=imperial";
+            if (model.getWhatever()) {
+                tempurl = url + "?zip=" + input + "&appid=" + appid + "&units=imperial";
+            } else {
+                String lat = model.getLatLon().substring(model.getLatLon().indexOf('(') + 1,
+                        model.getLatLon().indexOf(','));
+                String lon = model.getLatLon().substring(model.getLatLon().indexOf(',') + 1,
+                        model.getLatLon().indexOf(')'));
+                tempurl = url + "?lat=" + lat + "&lon=" + lon + "&appid=" + appid + "&units=imperial";
+            }
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
                 @Override
@@ -92,31 +109,27 @@ public class WeatherFragment extends Fragment {
 
                         JSONArray jsonArray = jsonResponse.getJSONArray("weather");
                         JSONObject jsonObjectWeather = jsonArray.getJSONObject(0);
-                        String description = jsonObjectWeather.getString("description");
+                        String description = jsonObjectWeather.getString("description").toLowerCase();
 
                         JSONObject jsonObjectMain = jsonResponse.getJSONObject("main");
-                        double temp = jsonObjectMain.getDouble("temp");
-                        double feelsLike = jsonObjectMain.getDouble("feels_like");
-                        float pressure = jsonObjectMain.getInt("pressure");
-                        int humidity = jsonObjectMain.getInt("humidity");
 
-                        JSONObject jsonObjectWind = jsonResponse.getJSONObject("wind");
-                        String wind = jsonObjectWind.getString("speed");
-                        JSONObject jsonObjectClouds = jsonResponse.getJSONObject("clouds");
-                        String clouds = jsonObjectClouds.getString("all");
-                        JSONObject jsonObjectSys = jsonResponse.getJSONObject("sys");
-                        String countryName = jsonObjectSys.getString("country");
                         String cityName = jsonResponse.getString("name");
 
-                        String output = "Current weather of " + cityName + " (" + countryName + ")"
-                                + "\nTemp: " + df.format(temp) + "° F"
-                                + "\nFeels Like: " + df.format(feelsLike) + " °F"
-                                + "\nHumidity: " + humidity + "%"
-                                + "\nDescription: " + description
-                                + "\nWind Speed: " + wind + "mph"
-                                + "\nCloudiness: " + clouds + "%"
-                                + "\nPressure: " + pressure + "hPa";
-                        binding.textViewOutput.setText(output);
+                        double temp = jsonObjectMain.getDouble("temp");
+
+                        int iconNum;
+
+                        if (description.contains("sun") || description.contains("clear")) iconNum = R.drawable.ic_baseline_wb_sunny_24;
+                        else if (description.contains("rain")) iconNum = R.drawable.rain;
+                        else if (description.contains("wind")) iconNum = R.drawable.wind;
+                        else if (description.contains("snow")) iconNum = R.drawable.snow;
+                        else iconNum = R.drawable.ic_cloud_black_24dp;
+
+                        binding.textViewMainCity.setText(cityName);
+                        binding.textViewMainTemp.setText(df.format(temp) + "° F");
+                        binding.textViewMainDescription.setText(description);
+                        binding.imageViewMainIcon.setImageResource(iconNum);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -124,24 +137,31 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textViewOutput.setText("Please enter a valid city.");
+                    binding.textViewMainCity.setText("Please enter a valid city.");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
             queue.add(stringRequest);
         }
-        get24HourForecastDetails(city);
-        getForecastDetails(city);
+        get24HourForecastDetails(input);
+        getForecastDetails(input);
     }
 
-    public void get24HourForecastDetails(String city) {
+    public void get24HourForecastDetails(String input) {
         String tempurl = "";
-//        String city = binding.editTextSearchbar.getText().toString();
 
-        if (city.equals("")) {
-            binding.textView24hour.setText("");
+        if (input.equals("")) {
+            binding.textViewMainTemp.setText("");
         } else {
-            tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
+            if (model.getWhatever()) {
+                tempurl = urlForecast + "?zip=" + input + "&appid=" + appid + "&units=imperial";
+            } else {
+                String lat = model.getLatLon().substring(model.getLatLon().indexOf('(') + 1,
+                        model.getLatLon().indexOf(','));
+                String lon = model.getLatLon().substring(model.getLatLon().indexOf(',') + 1,
+                        model.getLatLon().indexOf(')'));
+                tempurl = urlForecast + "?lat=" + lat + "&lon=" + lon + "&appid=" + appid + "&units=imperial";
+            }
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
                 @Override
@@ -150,17 +170,45 @@ public class WeatherFragment extends Fragment {
                         JSONObject jsonResponse = new JSONObject(response);
                         JSONArray jsonArray = jsonResponse.getJSONArray("list");
 
-                        StringBuilder str = new StringBuilder();
+                        JSONObject jsonObjectList = jsonArray.getJSONObject(0);
+                        JSONObject jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour1.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp1.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
 
-                        for (int i = 0; i < 8; i++) {
-                            JSONObject jsonObjectList = jsonArray.getJSONObject(i);
-                            JSONObject jsonObjectMain = jsonObjectList.getJSONObject("main");
-                            double temp = jsonObjectMain.getDouble("temp");
-                            String time = jsonObjectList.getString("dt_txt").substring(11, 13);
-                            str.append("Time: " + time + ", Temp: " + temp + "\n");
-                        }
+                        jsonObjectList = jsonArray.getJSONObject(1);
+                        jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour2.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp2.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
 
-                        binding.textView24hour.setText(str.toString());
+                        jsonObjectList = jsonArray.getJSONObject(2);
+                        jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour3.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp3.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
+
+                        jsonObjectList = jsonArray.getJSONObject(3);
+                        jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour4.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp4.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
+
+                        jsonObjectList = jsonArray.getJSONObject(4);
+                        jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour5.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp5.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
+
+                        jsonObjectList = jsonArray.getJSONObject(5);
+                        jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour6.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp6.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
+
+                        jsonObjectList = jsonArray.getJSONObject(6);
+                        jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour7.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp7.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
+
+                        jsonObjectList = jsonArray.getJSONObject(7);
+                        jsonObjectMain = jsonObjectList.getJSONObject("main");
+                        binding.textViewHour8.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
+                        binding.textViewTemp8.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -169,7 +217,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textView24hour.setText("");
+                    binding.textViewMainTemp.setText("");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -177,14 +225,21 @@ public class WeatherFragment extends Fragment {
         }
     }
 
-    public void getForecastDetails(String city) {
+    public void getForecastDetails(String input) {
         String tempurl = "";
-//        String city = binding.editTextSearchbar.getText().toString();
 
-        if (city.equals("")) {
-            binding.textViewForecast.setText("");
+        if (input.equals("")) {
+            binding.textViewMainDescription.setText("");
         } else {
-            tempurl = urlForecast + "?q=" + city + "&appid=" + appid + "&units=imperial";
+            if (model.getWhatever()) {
+                tempurl = urlForecast + "?zip=" + input + "&appid=" + appid + "&units=imperial";
+            } else {
+                String lat = model.getLatLon().substring(model.getLatLon().indexOf('(') + 1,
+                        model.getLatLon().indexOf(','));
+                String lon = model.getLatLon().substring(model.getLatLon().indexOf(',') + 1,
+                        model.getLatLon().indexOf(')'));
+                tempurl = urlForecast + "?lat=" + lat + "&lon=" + lon + "&appid=" + appid + "&units=imperial";
+            }
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, tempurl, new Response.Listener<String>() {
                 @Override
@@ -221,32 +276,39 @@ public class WeatherFragment extends Fragment {
                             if (keyElements[4] != null) i = jsonArray.length()+1;
                         }
 
-                        String output = keyElements[0].getString("dt_txt").substring(6, 10)
-                                + " High:" + df.format(keyElements[0].getJSONObject("main").getDouble("temp_max"))
-                                + " Low:" + df.format(keyElements[0].getJSONObject("main").getDouble("temp_min"))
-                                + " " + keyElements[0].getJSONArray("weather").getJSONObject(0).getString("main")
-                                + "\n"
-                                + keyElements[1].getString("dt_txt").substring(6, 10) + " High:"
-                                + df.format(keyElements[1].getJSONObject("main").getDouble("temp_max"))
-                                + " Low:" + df.format(keyElements[1].getJSONObject("main").getDouble("temp_min"))
-                                + " " + keyElements[1].getJSONArray("weather").getJSONObject(0).getString("main")
-                                + "\n"
-                                + keyElements[2].getString("dt_txt").substring(6, 10)
-                                + " High:" + df.format(keyElements[2].getJSONObject("main").getDouble("temp_max"))
-                                + " Low:" + df.format(keyElements[2].getJSONObject("main").getDouble("temp_min"))
-                                + " " + keyElements[2].getJSONArray("weather").getJSONObject(0).getString("main")
-                                + "\n"
-                                + keyElements[3].getString("dt_txt").substring(6, 10)
-                                + " High:" + df.format(keyElements[3].getJSONObject("main").getDouble("temp_max"))
-                                + " Low:" + df.format(keyElements[3].getJSONObject("main").getDouble("temp_min"))
-                                + " " + keyElements[3].getJSONArray("weather").getJSONObject(0).getString("main")
-                                + "\n"
-                                + keyElements[4].getString("dt_txt").substring(6, 10)
-                                + " High:" + df.format(keyElements[4].getJSONObject("main").getDouble("temp_max"))
-                                + " Low:" + df.format(keyElements[4].getJSONObject("main").getDouble("temp_min"))
-                                + " " + keyElements[4].getJSONArray("weather").getJSONObject(0).getString("main");
+                        if (!weatherList.isEmpty()) weatherList.clear();
+                        for (int i = 0; i < 5; i++) {
+                            addToWeekForecast(keyElements[i].getString("dt_txt").substring(0, 10),
+                                    keyElements[i].getJSONArray("weather").getJSONObject(0).getString("main"),
+                                    df.format(keyElements[i].getJSONObject("main").getDouble("temp_max")),
+                                    df.format(keyElements[i].getJSONObject("main").getDouble("temp_min")));
+                        }
 
-                        binding.textViewForecast.setText(output);
+                        binding.textViewDayOfWeek1.setText(weatherList.get(0).getDayOfWeek());
+                        binding.imageViewIcon1.setImageResource(weatherList.get(0).getImage());
+                        binding.textViewHigh1.setText(weatherList.get(0).getTempHigh());
+                        binding.textViewLow1.setText(weatherList.get(0).getTempLow());
+
+                        binding.textViewDayOfWeek2.setText(weatherList.get(1).getDayOfWeek());
+                        binding.imageViewIcon2.setImageResource(weatherList.get(1).getImage());
+                        binding.textViewHigh2.setText(weatherList.get(1).getTempHigh());
+                        binding.textViewLow2.setText(weatherList.get(1).getTempLow());
+
+                        binding.textViewDayOfWeek3.setText(weatherList.get(2).getDayOfWeek());
+                        binding.imageViewIcon3.setImageResource(weatherList.get(2).getImage());
+                        binding.textViewHigh3.setText(weatherList.get(2).getTempHigh());
+                        binding.textViewLow3.setText(weatherList.get(2).getTempLow());
+
+                        binding.textViewDayOfWeek4.setText(weatherList.get(3).getDayOfWeek());
+                        binding.imageViewIcon4.setImageResource(weatherList.get(3).getImage());
+                        binding.textViewHigh4.setText(weatherList.get(3).getTempHigh());
+                        binding.textViewLow4.setText(weatherList.get(3).getTempLow());
+
+                        binding.textViewDayOfWeek5.setText(weatherList.get(4).getDayOfWeek());
+                        binding.imageViewIcon5.setImageResource(weatherList.get(4).getImage());
+                        binding.textViewHigh5.setText(weatherList.get(4).getTempHigh());
+                        binding.textViewLow5.setText(weatherList.get(4).getTempLow());
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -254,7 +316,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textViewForecast.setText("");
+                    binding.textViewMainDescription.setText("");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -275,5 +337,33 @@ public class WeatherFragment extends Fragment {
                 else return false;
             }
         }
+    }
+
+    private void addToWeekForecast(String dayOfWeek, String weatherConditions, String tempHigh, String tempLow) {
+        String finalDay = "";
+        int iconNum;
+
+        Date date = new Date(2021,
+                Integer.parseInt(dayOfWeek.substring(6, 7)),
+                Integer.parseInt(dayOfWeek.substring(8, 10)));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        if (cal.get(Calendar.DAY_OF_WEEK) == 1) finalDay = "Sunday";
+        else if (cal.get(Calendar.DAY_OF_WEEK) == 2) finalDay = "Monday";
+        else if (cal.get(Calendar.DAY_OF_WEEK) == 3) finalDay = "Tuesday";
+        else if (cal.get(Calendar.DAY_OF_WEEK) == 4) finalDay = "Wednesday";
+        else if (cal.get(Calendar.DAY_OF_WEEK) == 5) finalDay = "Thursday";
+        else if (cal.get(Calendar.DAY_OF_WEEK) == 6) finalDay = "Friday";
+        else if (cal.get(Calendar.DAY_OF_WEEK) == 7) finalDay = "Saturday";
+
+        weatherConditions = weatherConditions.toLowerCase();
+        if (weatherConditions.contains("sun") || weatherConditions.contains("clear")) iconNum = R.drawable.ic_baseline_wb_sunny_24;
+        else if (weatherConditions.contains("rain")) iconNum = R.drawable.rain;
+        else if (weatherConditions.contains("wind")) iconNum = R.drawable.wind;
+        else if (weatherConditions.contains("snow")) iconNum = R.drawable.snow;
+        else iconNum = R.drawable.ic_cloud_black_24dp;
+
+        weatherList.add(new WeatherModel(finalDay, iconNum, tempHigh.substring(0, 2), tempLow.substring(0, 2)));
     }
 }

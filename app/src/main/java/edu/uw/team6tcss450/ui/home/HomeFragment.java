@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
                 .get(UserInfoViewModel.class);
 
         modelWeather = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
-        grabWeatherDetails(modelWeather.getCity());
+        grabWeatherDetails(modelWeather.getZip());
 
         mHomeModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
 

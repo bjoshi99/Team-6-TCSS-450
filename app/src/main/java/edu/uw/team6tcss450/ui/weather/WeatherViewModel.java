@@ -11,16 +11,18 @@ import androidx.lifecycle.Observer;
 import org.json.JSONObject;
 
 public class WeatherViewModel extends AndroidViewModel {
-//    private MutableLiveData<JSONObject> mWeather;
 
-    private MutableLiveData<String> city;
+    private MutableLiveData<String> zip;
+    private MutableLiveData<String> latLon;
+    private MutableLiveData<Boolean> whateverYouWant;
 
     public WeatherViewModel(@NonNull Application application) {
         super(application);
-        city = new MutableLiveData<>();
-        city.setValue("Seattle");
-//        mWeather = new MutableLiveData<>();
-//        mWeather.setValue(new JSONObject());
+        zip = new MutableLiveData<>();
+        zip.setValue("98105");
+        latLon = new MutableLiveData<>();
+        whateverYouWant = new MutableLiveData<>();
+        whateverYouWant.setValue(true);
     }
 
     /**
@@ -33,14 +35,31 @@ public class WeatherViewModel extends AndroidViewModel {
      */
     public void addCountObserver(@NonNull LifecycleOwner owner,
                                  @NonNull Observer<? super String> observer) {
-        city.observe(owner, observer);
+        zip.observe(owner, observer);
+        latLon.observe(owner, observer);
     }
 
-    public String getCity(){
-        return city.getValue();
+    public String getZip(){
+        return zip.getValue();
     }
 
-    public void setValue(String c){
-        city.setValue(c);
+    public void setZip(String c){
+        zip.setValue(c);
+    }
+
+    public String getLatLon(){
+        return latLon.getValue();
+    }
+
+    public void setLatLon(String c){
+        latLon.setValue(c);
+    }
+
+    public boolean getWhatever(){
+        return whateverYouWant.getValue();
+    }
+
+    public void setWhatever(boolean w){
+        whateverYouWant.setValue(w);
     }
 }

@@ -138,7 +138,6 @@ public class ChatListViewModel extends AndroidViewModel {
         return false;
     }
 
-
     /**
      * connect to endpoints using heroku app link. Can use get requests from endpoint.
      *
@@ -169,5 +168,4 @@ public class ChatListViewModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
-
 }
