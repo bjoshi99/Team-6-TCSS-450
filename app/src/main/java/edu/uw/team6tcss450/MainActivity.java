@@ -37,6 +37,11 @@ import edu.uw.team6tcss450.model.UserInfoViewModel;
 import edu.uw.team6tcss450.services.PushReceiver;
 import edu.uw.team6tcss450.ui.chat.ChatMessage;
 import edu.uw.team6tcss450.ui.chat.ChatViewModel;
+import edu.uw.team6tcss450.ui.contact.Contact;
+import edu.uw.team6tcss450.ui.contact.ContactModel;
+import edu.uw.team6tcss450.ui.home.HomeNotificationDetail;
+import edu.uw.team6tcss450.ui.home.HomeRecyclerViewAdapter;
+import edu.uw.team6tcss450.ui.home.HomeViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -97,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
                 //multiple chat rooms.
                 mNewMessageModel.reset();
             }
+            if (destination.getId() == R.id.navigation_contact) {
+                BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
+                badge.setVisible(false);
+            }
         });
         mNewMessageModel.addMessageCountObserver(this, count -> {
             BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.chat_list_fragment);
@@ -154,6 +163,16 @@ public class MainActivity extends AppCompatActivity {
         private ChatViewModel mModel =
                 new ViewModelProvider(MainActivity.this)
                         .get(ChatViewModel.class);
+
+        //for contact request
+        private HomeViewModel mHomeModel =
+                new ViewModelProvider(MainActivity.this)
+                    .get(HomeViewModel.class);
+
+        private ContactModel mContactModel =
+                new ViewModelProvider(MainActivity.this)
+                        .get(ContactModel.class);
+
         @Override
         public void onReceive(Context context, Intent intent) {
             NavController nc =
@@ -167,10 +186,41 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Before if in onRecieve");
                 if (nd.getId() != R.id.chatFragment) {
                     mNewMessageModel.increment();
+
+                    //add to home for notification
+                    mHomeModel.addNotification("New chat message from " + cm.getSender());
                 }
                 //Inform the view model holding chatroom messages of the new
                 //message.
                 mModel.addMessage(intent.getIntExtra("chatid", -1), cm);
+
+            }
+
+            if(intent.hasExtra("ContactRequest")){
+                if(nd.getId() != R.id.navigation_contact){
+                    //display a badge on home tab
+                    //...
+                    BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
+                    badge.setVisible(true);
+                }
+
+                String[] responses = intent.getStringExtra("ContactRequest").split(":");
+                String msg="", eml="";
+//                int id = intent.getIntExtra("memberid", 0);
+
+                if(responses.length > 1){
+                    msg = responses[0];
+                    eml = responses[1];
+                }
+
+                mHomeModel.addNotification(msg);
+
+                //to get name, substring from 25 to length
+                String name = (msg).substring(25);
+
+                Contact tmp = new Contact.Builder(name, name, eml).build();
+                tmp.req = true;
+                mContactModel.addRequest(tmp);
             }
         }
     }

@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/updatePasswordFragment"
         android:name="edu.uw.team6tcss450.ui.home.UpdatePasswordFragment"
-        android:label="UpdatePasswordFragment" >
+        android:label="Update Password" >
         <argument
             android:name="email"
             app:argType="string" />
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/doneChangeFragment"
         android:name="edu.uw.team6tcss450.ui.home.DoneChangeFragment"
-        android:label="fragment_done_change"
+        android:label="Complete"
         tools:layout="@layout/fragment_done_change" >
         <action
             android:id="@+id/action_doneChangeFragment_to_navigation_home"
@@ -73,7 +73,9 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="edu.uw.team6tcss450.ui.chat.ChatFragment"
-        android:label="fragment_chat"
+        android:label="@string/title_chat"
+        tools:layout="@layout/fragment_chat">
+        android:label="Chat Room"
         tools:layout="@layout/fragment_chat" >
         <argument
             android:name="chatID"
@@ -82,7 +84,7 @@
     <fragment
         android:id="@+id/contactSearchFragment2"
         android:name="edu.uw.team6tcss450.ui.contact.ContactSearchFragment"
-        android:label="fragment_contact_search"
+        android:label="Contact Search"
         tools:layout="@layout/fragment_contact_search" >
         <action
             android:id="@+id/action_contactSearchFragment2_to_navigation_contact"
@@ -91,7 +93,8 @@
     <fragment
         android:id="@+id/chat_list_fragment"
         android:name="edu.uw.team6tcss450.ui.chat.chatList.ChatListFragment"
-        android:label="ChatListFragment" >
+        android:label="@string/title_chat_list">
+        android:label="Current Chats" >
         <action
             android:id="@+id/action_chat_list_fragment_to_createChatFragment"
             app:destination="@id/createChatFragment" />
@@ -102,7 +105,8 @@
     <fragment
         android:id="@+id/createChatFragment"
         android:name="edu.uw.team6tcss450.ui.chat.CreateChatFragment"
-        android:label="CreateChatFragment" >
+        android:label="@string/title_create_chat_room">
+        android:label="Create Chat Room" >
         <action
             android:id="@+id/action_createChatFragment_to_chat_list_fragment"
             app:destination="@id/chat_list_fragment" />

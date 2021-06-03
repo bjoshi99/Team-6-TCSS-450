@@ -7,7 +7,8 @@ public class Contact implements Serializable {
     private String mName;
     private String mNickname;
     private String mEmail;
-
+    public boolean req = false;
+    public int memberId = 0;
 
     public static class Builder {
         private String mName;

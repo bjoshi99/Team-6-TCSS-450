@@ -24,6 +24,7 @@ import edu.uw.team6tcss450.MainActivityArgs;
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentSettingBinding;
 import edu.uw.team6tcss450.databinding.FragmentSignInBinding;
+import edu.uw.team6tcss450.model.PushyTokenViewModel;
 import edu.uw.team6tcss450.model.UserInfoViewModel;
 
 /**
@@ -178,6 +179,17 @@ public class SettingFragment extends Fragment {
                         prefs.edit().remove(getString(R.string.keys_prefs_jwt)).apply();
                         //End the app completely
                         getActivity().finishAndRemoveTask();
+
+                        PushyTokenViewModel model = new ViewModelProvider(getActivity())
+                                .get(PushyTokenViewModel.class);
+                        //when we hear back from the web service quit
+                        model.addResponseObserver(getActivity(), result -> getActivity().finishAndRemoveTask());
+                        model.deleteTokenFromWebservice(
+                                new ViewModelProvider(getActivity())
+                                        .get(UserInfoViewModel.class)
+                                        .getmJwt()
+                        );
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
