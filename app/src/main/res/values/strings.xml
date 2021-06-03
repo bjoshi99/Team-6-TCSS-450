@@ -32,7 +32,7 @@
     <string name="edit_search">search</string>
     <string name="edit_search_requst">Send Friend Request !</string>
     <string name="edit_search_send_msg">Send Message !</string>
-    <string name="create_chat">Create Chat</string>
+    <string name="create_chat">Enter Name</string>
 
     <string name="edit_search_result_name">User name : </string>
     <string name="edit_search_result_nickname">User nickname : </string>
@@ -57,5 +57,7 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="label_location">Current location:</string>
+    <string name="title_chat_list">Chat List</string>
+    <string name="title_create_chat_room">Create Chat Room</string>
 
 </resources>
