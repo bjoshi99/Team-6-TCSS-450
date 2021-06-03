@@ -74,4 +74,15 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
             mBinding.editUserName.setText(theChatRoom.getName());
         }
     }
+
+    public void deleteChatRoom(int chatID){
+
+        for(int i=0; i<mChatRoom.size(); i++){
+
+            if(mChatRoom.get(i).getChatID() == chatID){
+                mChatRoom.remove(i);
+            }
+        }
+
+    }
 }

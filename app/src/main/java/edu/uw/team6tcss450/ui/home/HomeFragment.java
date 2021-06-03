@@ -203,12 +203,12 @@ public class HomeFragment extends Fragment {
 
 //                    Picasso.with(context).load(imageID).into(imageView);
 
-                    binding.textTempHome.setText(outputTemp);
-                    binding.textCityHome.setText(outputCityName);
-                    binding.textMinmaxHome.setText(outputMinMax);
-                    binding.textHumidityHome.setText(outputHumidity);
-                    binding.textWindHome.setText(outputWindSpeed);
-                    binding.textDescriptionHome.setText(outputDescription);
+//                    binding.textTempHome.setText(outputTemp);
+//                    binding.textCityHome.setText(outputCityName);
+//                    binding.textMinmaxHome.setText(outputMinMax);
+//                    binding.textHumidityHome.setText(outputHumidity);
+//                    binding.textWindHome.setText(outputWindSpeed);
+//                    binding.textDescriptionHome.setText(outputDescription);
 
                     //without using binding objects
                     ((TextView)(getView().findViewById(R.id.text_temp_home))).setText(outputTemp);
