@@ -21,7 +21,6 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
         this.mChatRoom = List;
     }
 
-
     @NonNull
     @Override
     public ChatListViewHolder onCreateViewHolder(@NonNull ViewGroup theParent, int theViewType) {
@@ -58,15 +57,10 @@ public class ChatListRecyclerViewAdapter extends RecyclerView.Adapter<ChatListRe
             ));
         }
 
-
-
-
-
         @Override
         public void onClick(View theView) {
 
         }
-
 
         void setmChatRoom(ChatRoom theChatRoom) {
             mChatRoom = theChatRoom;
