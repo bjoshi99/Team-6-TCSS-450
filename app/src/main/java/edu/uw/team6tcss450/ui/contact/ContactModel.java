@@ -28,13 +28,18 @@ import java.util.function.IntFunction;
 public class ContactModel extends AndroidViewModel {
 
    private MutableLiveData<List<Contact>> mContactList;
+   private MutableLiveData<List<Contact>> mSearchContact;
    private ContactRecyclerViewAdapter mViewAdapter;
+   private ContactSearchRecyclerViewAdapter mSearchViewAdapter;
 
    public ContactModel(@NonNull Application theApplication){
         super(theApplication);
         mContactList = new MutableLiveData<>();
         mContactList.setValue(new ArrayList<>());
+        mSearchContact = new MutableLiveData<>();
+        mSearchContact.setValue(new ArrayList<>());
         mViewAdapter = new ContactRecyclerViewAdapter(mContactList.getValue());
+        mSearchViewAdapter = new ContactSearchRecyclerViewAdapter(mSearchContact.getValue());
 
     }
 
@@ -48,6 +53,18 @@ public class ContactModel extends AndroidViewModel {
     public void addContactListObserver(@NonNull LifecycleOwner theOwner,
                                        @NonNull Observer<? super List<Contact>> theObserver) {
         mContactList.observe(theOwner, theObserver);
+    }
+
+    /**
+     * Method that creates an observer for myContactSearchList.
+     *
+     * @param theOwner
+     * @param theObserver
+     *
+     */
+    public void addContactSearchListObserver(@NonNull LifecycleOwner theOwner,
+                                       @NonNull Observer<? super List<Contact>> theObserver) {
+        mSearchContact.observe(theOwner, theObserver);
     }
 
     /**
@@ -72,7 +89,13 @@ public class ContactModel extends AndroidViewModel {
     public MutableLiveData<List<Contact>> getContactList() {
         return mContactList;
     }
-
+    /**
+     * Get the search list.
+     *
+     * @return mySearchList
+     *
+     */
+    public MutableLiveData<List<Contact>> getSearchList(){ return mSearchContact; }
     /**
      * Get view adapter
      *
@@ -173,5 +196,74 @@ public class ContactModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
+
+    public void searchMember(String theJwt, String theMember) {
+        String url =
+                "https://tcss450-team6.herokuapp.com/contacts/search/" + theMember;
+        System.out.println("Check URL is correct ! " + url);
+        Request request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                this::handleSearchResult,
+                this::handleError) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", theJwt);
+                System.out.println("********************************************************");
+                System.out.println("The jwt: " + theJwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+
+    private void handleSearchResult(final JSONObject theResult){
+
+        try{
+
+            IntFunction<String> getString =
+                    getApplication().getResources()::getString;
+
+            JSONArray jsonArrayContacts = theResult.getJSONArray("searchResults");
+
+            //If search result contains data, then clear first
+            if(!mSearchContact.getValue().isEmpty()){
+                mSearchContact.getValue().clear();
+            }
+
+            for(int i = 0; i < jsonArrayContacts.length(); i++) {
+
+                JSONObject jsonObjectContact = jsonArrayContacts.getJSONObject(i);
+
+                String name = jsonObjectContact.getString("firstname")+ " " + jsonObjectContact.getString("lastname");
+                String email = jsonObjectContact.getString("email");
+                String nickName = jsonObjectContact.getString("username");
+
+                Contact contact = new Contact.Builder(
+                        name, nickName, email
+                ).build();
+
+                if(!isDuplicate(mSearchContact.getValue(), contact)){
+                    Log.i("TAG", "handleResult: does the contact added to the mContactList ? " + i);
+                    mSearchContact.getValue().add(contact);
+                }
+
+                mSearchContact.setValue(mSearchContact.getValue());
+
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 
 }
