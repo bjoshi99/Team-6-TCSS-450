@@ -53,7 +53,6 @@ public class ChatListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        System.out.println("hello 3");
         FragmentChatListBinding binding = FragmentChatListBinding.bind(getView());
         mModel.addChatListObserver(getViewLifecycleOwner(), chatRoomList -> {
             if (!chatRoomList.isEmpty()) {

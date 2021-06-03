@@ -112,7 +112,6 @@ public class CreateChatRoomViewModel extends AndroidViewModel {
                 .addToRequestQueue(request);
     }
 
-
     private void handleResult(final JSONObject result) {
         try {
             int chatID = result.getInt("chatID");

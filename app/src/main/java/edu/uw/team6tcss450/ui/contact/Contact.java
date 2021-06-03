@@ -8,14 +8,22 @@ public class Contact implements Serializable {
     private String mNickname;
     private String mEmail;
     public boolean req = false;
-    public int memberId = 0;
+    public int memberId ;
 
     public static class Builder {
         private String mName;
         private String mNickname;
         private String mEmail;
+        private int memberId;
 
 
+        public Builder(String theName, String theNickname, String theEmail, String memberId) {
+            this.mName = theName;
+            this.mNickname = theNickname;
+            this.mEmail = theEmail;
+            this.memberId = Integer.parseInt(memberId);
+
+        }
         public Builder(String theName, String theNickname, String theEmail) {
             this.mName = theName;
             this.mNickname = theNickname;
@@ -52,6 +60,7 @@ public class Contact implements Serializable {
         this.mName = builder.mName;
         this.mNickname = builder.mNickname;
         this.mEmail = builder.mEmail;
+        this.memberId = builder.memberId;
 
     }
 
@@ -67,6 +76,9 @@ public class Contact implements Serializable {
 
     public String getName() {
         return mName;
+    }
+    public int getMemberId(){
+        return memberId;
     }
 
 }

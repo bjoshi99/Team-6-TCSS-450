@@ -136,9 +136,10 @@ public class ContactModel extends AndroidViewModel {
                 String name = jsonObjectContact.getString("firstName")+ " " + jsonObjectContact.getString("lastName");
                 String email = jsonObjectContact.getString("email");
                 String nickName = jsonObjectContact.getString("userName");
+                String memberId = jsonObjectContact.getString("memberId");
 
                 Contact contact = new Contact.Builder(
-                        name, nickName, email
+                        name, nickName, email, memberId
                 ).build();
 
                 if(!isDuplicate(mContactList.getValue(), contact)){
@@ -224,6 +225,7 @@ public class ContactModel extends AndroidViewModel {
                 .add(request);
     }
 
+
     private void handleSearchResult(final JSONObject theResult){
 
         try{
@@ -245,9 +247,10 @@ public class ContactModel extends AndroidViewModel {
                 String name = jsonObjectContact.getString("firstname")+ " " + jsonObjectContact.getString("lastname");
                 String email = jsonObjectContact.getString("email");
                 String nickName = jsonObjectContact.getString("username");
+                String memberId = jsonObjectContact.getString("memberId");
 
                 Contact contact = new Contact.Builder(
-                        name, nickName, email
+                        name, nickName, email, memberId
                 ).build();
 
                 if(!isDuplicate(mSearchContact.getValue(), contact)){
@@ -264,6 +267,11 @@ public class ContactModel extends AndroidViewModel {
         }
 
     }
+
+
+
+
+
 
 
 }
