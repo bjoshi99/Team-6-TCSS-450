@@ -7,8 +7,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import org.json.JSONObject;
+
+import edu.uw.team6tcss450.model.LocationViewModel;
 
 public class WeatherViewModel extends AndroidViewModel {
 
@@ -21,8 +24,9 @@ public class WeatherViewModel extends AndroidViewModel {
         zip = new MutableLiveData<>();
         zip.setValue("98105");
         latLon = new MutableLiveData<>();
+        latLon.setValue("(47.61,-122.33)");
         whateverYouWant = new MutableLiveData<>();
-        whateverYouWant.setValue(true);
+        whateverYouWant.setValue(false);
     }
 
     /**

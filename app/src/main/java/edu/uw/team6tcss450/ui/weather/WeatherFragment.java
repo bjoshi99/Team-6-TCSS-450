@@ -50,6 +50,8 @@ public class WeatherFragment extends Fragment {
 
     WeatherViewModel model;
 
+    private boolean firstTime = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,14 @@ public class WeatherFragment extends Fragment {
 
         locationModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
 
-        getWeatherDetails(model.getZip());
+        if (firstTime) {
+            model.setWhatever(false);
+            model.setLatLon("(" + locationModel.getCurrentLocation().getLatitude() + "," + locationModel.getCurrentLocation().getLongitude() + ")");
+            getWeatherDetails(model.getLatLon());
+            firstTime = false;
+        } else {
+            getWeatherDetails(model.getLatLon());
+        }
 
         binding.buttonCity.setOnClickListener(button -> {
             model.setWhatever(true);
@@ -81,7 +90,6 @@ public class WeatherFragment extends Fragment {
         });
         binding.buttonCurrent.setOnClickListener(button -> {
             model.setWhatever(false);
-            System.out.println("(" + locationModel.getCurrentLocation().getLongitude() + "," + locationModel.getCurrentLocation().getLatitude() + ")");
             model.setLatLon("(" + locationModel.getCurrentLocation().getLatitude() + "," + locationModel.getCurrentLocation().getLongitude() + ")");
             getWeatherDetails(model.getLatLon());
         });
