@@ -1,5 +1,6 @@
 package edu.uw.team6tcss450.ui.contact;
 
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,12 +46,14 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private final List<Contact> mContact;
 
+
     //changes to add more than one type of card in recycler view
     private static final int ITEM_TYPE_CONTACT = 0;
     private static final int ITEM_TYPE_REQUEST = 1;
 
     public ContactRecyclerViewAdapter(List<Contact> List){
         this.mContact = List;
+
     }
 
 
@@ -82,6 +86,7 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         if(itype == ITEM_TYPE_CONTACT){
             ((ContactViewHolder) holder).setContacts(mContact.get(position));
+
         }
         else if(itype == ITEM_TYPE_REQUEST){
             //set data for request
@@ -211,12 +216,35 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final View mView;
         public FragmentContactCardBinding mBinding;
-        private Contact mContact;
+        private Contact mTheContact;
 
         public ContactViewHolder(View theView) {
             super(theView);
             mView = theView;
             mBinding = FragmentContactCardBinding.bind(theView);
+            mBinding.buttonRemoveContact.setOnClickListener(button ->{
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                deleteMember(mTheContact.getMemberId());
+                                mContact.remove(mTheContact);
+                                ContactRecyclerViewAdapter.this.notifyDataSetChanged();
+                                System.out.println("after server remove, and recycler view notify.");
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(theView.getContext());
+                builder.setMessage("Do you want to delete this contact?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                    });
             theView.setOnClickListener(this);
         }
 
@@ -225,9 +253,49 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         }
 
+        public void deleteMember(int memberId) {
+            String url =
+                    "https://tcss450-team6.herokuapp.com/contacts/contact/" + memberId;
+            UserInfoViewModel model = new ViewModelProvider((MainActivity)(mView.getContext()))
+                    .get(UserInfoViewModel.class);
+            Request request = new JsonObjectRequest(
+                    Request.Method.DELETE,
+                    url,
+                    null,
+                    this::handleDeleteResult,
+                    this::handleError) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", model.getmJwt());
+                    System.out.println("********************************************************");
+                    System.out.println("Inside of the deleteMember server call.");
+                    return headers;
+                }
+            };
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    10_000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Volley.newRequestQueue(mView.getContext())
+                    .add(request);
+        }
+
+
+        private void handleDeleteResult(final JSONObject theResult){
+            System.out.println("the contact removed ! from the handleDeleteResult method.");
+        }
+        private void handleError(final VolleyError theError) {
+
+//        handleResult(null);
+            System.out.println("***********************************************************");
+            System.out.println("Error : " + theError.toString());
+        }
+
+
 
         void setContacts(Contact theContact) {
-            mContact = theContact;
+            mTheContact = theContact;
             mBinding.editUserName.setText(theContact.getNickname());
             mBinding.editCurrentChat.setText(theContact.getEmail());
         }

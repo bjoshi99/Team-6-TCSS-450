@@ -29,7 +29,6 @@
        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
        tools:context="edu.uw.tcss450.uiandnavigationlab.ui.contact.ContactFragment"
        tools:listitem="@layout/fragment_contact_card"
-
        />
 
 

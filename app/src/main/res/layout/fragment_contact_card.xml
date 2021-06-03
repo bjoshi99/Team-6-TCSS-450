@@ -35,6 +35,18 @@
             android:textSize="20sp"></TextView>
 
 
+        <ImageButton
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:id="@+id/button_remove_contact"
+            android:clickable="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="250dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toRightOf="@+id/cardview_image"
+            android:src="@drawable/ic_remove_black_24dp"
+            android:focusable="true" />
+
         <TextView
             android:id="@+id/edit_current_chat"
             android:layout_width="140dp"

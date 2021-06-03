@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import edu.uw.team6tcss450.R;
 import edu.uw.team6tcss450.databinding.FragmentContactBinding;
+import edu.uw.team6tcss450.databinding.FragmentContactCard2Binding;
 import edu.uw.team6tcss450.model.UserInfoViewModel;
 
 /**
@@ -66,6 +67,7 @@ public class ContactFragment extends Fragment {
                    ContactFragmentDirections.actionNavigationContactToContactSearchFragment2()
             );
         });
+
     }
 
 
