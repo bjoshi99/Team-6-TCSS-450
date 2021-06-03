@@ -73,33 +73,13 @@ public class ChatListViewModel extends AndroidViewModel {
         }
     }
 
-    /**
-     * Get the contactList.
-     *
-     * @return myContactList
-     *
-     */
     public MutableLiveData<List<ChatRoom>> getChatList() {
         return mChatList;
     }
 
-    /**
-     * Get view adapter
-     *
-     * @return myViewAdapter
-     *
-     */
     public ChatListRecyclerViewAdapter getViewAdapter() {
         return mViewAdapter;
     }
-
-
-    /**
-     * Method that creates dummy data for the recycler view.
-     *
-     * @param theResult a JSONObject to be used in the future.
-     *
-     */
 
     private void handleResult(final JSONObject result) {
         try {

@@ -101,6 +101,9 @@
         <action
             android:id="@+id/action_chat_list_fragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_chat_list_fragment_to_chatSettingsFragment"
+            app:destination="@id/chatSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/createChatFragment"
@@ -110,5 +113,16 @@
         <action
             android:id="@+id/action_createChatFragment_to_chat_list_fragment"
             app:destination="@id/chat_list_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatSettingsFragment"
+        android:name="edu.uw.team6tcss450.ui.chat.chatSettings.ChatSettingsFragment"
+        android:label="Chat Settings">
+        <argument
+            android:name="chatID"
+            app:argType="integer" />
+        <argument
+            android:name="chatName"
+            app:argType="string" />
     </fragment>
 </navigation>
