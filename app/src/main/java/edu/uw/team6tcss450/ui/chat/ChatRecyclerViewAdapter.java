@@ -105,9 +105,9 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
 
             //to get only time from the time stamp of the message
             String timeSlot = message.getTimeStamp();
-            String[] split = ((timeSlot.split(" ")[1]).split(":"));
-
-            String shortTime = split[0] + ":" + split[1];
+//            String[] split = ((timeSlot.split(" ")[1]).split(":"));
+//
+//            String shortTime = split[0] + ":" + split[1];
 
             if (mEmail.equals(message.getSender())) {
 
@@ -116,7 +116,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
 //                sender.setVisibility(View.GONE);
 
                 msg.setText(message.getMessage());
-                time.setHint(shortTime);
+                time.setHint(timeSlot);
                 time.setHintTextColor(res.getColor(R.color.grayHint, null));
 
                 //This message is from the user. Format it as such
@@ -160,7 +160,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
                 sender = mView.findViewById( R.id.text_sender );
                 sender.setHint(message.getSender());
                 msg.setText(message.getMessage());
-                time.setHint(shortTime);
+                time.setHint(timeSlot);
                 time.setHintTextColor(res.getColor(R.color.grayHint, null));
 
                 //This message is from another user. Format it as such
