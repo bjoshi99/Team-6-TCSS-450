@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +44,7 @@ import edu.uw.team6tcss450.ui.auth.signin.SignInViewModel;
 public class WeatherFragment extends Fragment {
     private FragmentWeatherBinding binding;
     private List<WeatherModel> weatherList;
+    private List<WeatherRecyclerModel> weatherRecyclerList;
     private LocationViewModel locationModel;
 
     private final String url = "https://api.openweathermap.org/data/2.5/weather";
@@ -68,6 +72,7 @@ public class WeatherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         weatherList = new ArrayList<>();
+        weatherRecyclerList = new ArrayList<>();
         model = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
 
         locationModel = new ViewModelProvider(getActivity()).get(LocationViewModel.class);
@@ -76,22 +81,27 @@ public class WeatherFragment extends Fragment {
             model.setWhatever(false);
             model.setLatLon("(" + locationModel.getCurrentLocation().getLatitude() + "," + locationModel.getCurrentLocation().getLongitude() + ")");
             getWeatherDetails(model.getLatLon());
+            weatherRecyclerList.clear();
             firstTime = false;
         } else {
             getWeatherDetails(model.getLatLon());
+            weatherRecyclerList.clear();
         }
+
 
         binding.buttonCity.setOnClickListener(button -> {
             model.setWhatever(true);
             getWeatherDetails(binding.editTextSearchbar.getText().toString());
-        });
-        binding.buttonMap.setOnClickListener(button -> {
-            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavigationWeatherToLocationFragment());
+            weatherRecyclerList.clear();
         });
         binding.buttonCurrent.setOnClickListener(button -> {
             model.setWhatever(false);
             model.setLatLon("(" + locationModel.getCurrentLocation().getLatitude() + "," + locationModel.getCurrentLocation().getLongitude() + ")");
             getWeatherDetails(model.getLatLon());
+            weatherRecyclerList.clear();
+        });
+        binding.buttonMap.setOnClickListener(button -> {
+            Navigation.findNavController(getView()).navigate(WeatherFragmentDirections.actionNavigationWeatherToLocationFragment());
         });
     }
 
@@ -149,6 +159,7 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     binding.textViewMainCity.setText("Please enter a valid city.");
+                    binding.imageViewMainIcon.setImageResource(0);
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -181,45 +192,21 @@ public class WeatherFragment extends Fragment {
                         JSONObject jsonResponse = new JSONObject(response);
                         JSONArray jsonArray = jsonResponse.getJSONArray("list");
 
-                        JSONObject jsonObjectList = jsonArray.getJSONObject(0);
-                        JSONObject jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour1.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp1.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
-
-                        jsonObjectList = jsonArray.getJSONObject(1);
-                        jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour2.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp2.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
-
-                        jsonObjectList = jsonArray.getJSONObject(2);
-                        jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour3.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp3.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
-
-                        jsonObjectList = jsonArray.getJSONObject(3);
-                        jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour4.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp4.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
-
-                        jsonObjectList = jsonArray.getJSONObject(4);
-                        jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour5.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp5.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
-
-                        jsonObjectList = jsonArray.getJSONObject(5);
-                        jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour6.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp6.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
-
-                        jsonObjectList = jsonArray.getJSONObject(6);
-                        jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour7.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp7.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
-
-                        jsonObjectList = jsonArray.getJSONObject(7);
-                        jsonObjectMain = jsonObjectList.getJSONObject("main");
-                        binding.textViewHour8.setText(jsonObjectList.getString("dt_txt").substring(11, 13));
-                        binding.textViewTemp8.setText(String.valueOf((int)jsonObjectMain.getDouble("temp")));
+                        if (!weatherRecyclerList.isEmpty()) weatherList.clear();
+                        for (int i = 0; i<8; i++) {
+                            JSONObject jsonObjectList = jsonArray.getJSONObject(i);
+                            JSONObject jsonObjectMain = jsonObjectList.getJSONObject("main");
+                            addTo24HourForecast(
+                                    Integer.parseInt(jsonObjectList.getString("dt_txt").substring(11, 13)),
+                                    String.valueOf((int)jsonObjectMain.getDouble("temp"))
+                            );
+                            for (int j=1; j<=2; j++) {
+                                addTo24HourForecast(Integer.parseInt(jsonObjectList.getString("dt_txt").substring(11, 13)) + j, "999");
+                            }
+                        }
+                        addTemp();
+                        binding.recyclerView24Hour.setAdapter(new WeatherRecyclerViewAdapter(weatherRecyclerList));
+                        binding.recyclerView24Hour.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -328,6 +315,30 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     binding.textViewMainDescription.setText("");
+                    binding.textViewDayOfWeek1.setText("");
+                    binding.imageViewIcon1.setImageResource(0);
+                    binding.textViewHigh1.setText("");
+                    binding.textViewLow1.setText("");
+
+                    binding.textViewDayOfWeek2.setText("");
+                    binding.imageViewIcon2.setImageResource(0);
+                    binding.textViewHigh2.setText("");
+                    binding.textViewLow2.setText("");
+
+                    binding.textViewDayOfWeek3.setText("");
+                    binding.imageViewIcon3.setImageResource(0);
+                    binding.textViewHigh3.setText("");
+                    binding.textViewLow3.setText("");
+
+                    binding.textViewDayOfWeek4.setText("");
+                    binding.imageViewIcon4.setImageResource(0);
+                    binding.textViewHigh4.setText("");
+                    binding.textViewLow4.setText("");
+
+                    binding.textViewDayOfWeek5.setText("");
+                    binding.imageViewIcon5.setImageResource(0);
+                    binding.textViewHigh5.setText("");
+                    binding.textViewLow5.setText("");
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
@@ -346,6 +357,49 @@ public class WeatherFragment extends Fragment {
             else {
                 if (dateToCheck.contains("12:00:00")) return true;
                 else return false;
+            }
+        }
+    }
+
+    private void addTo24HourForecast(int time, String temp) {
+        StringBuilder sb = new StringBuilder();
+
+        if (time < 12) {
+            if (time == 0) sb.append("12");
+            else sb.append(time);
+            sb.append(":00 AM");
+        } else if (time == 12) {
+            sb.append(time);
+            sb.append(":00 PM");
+        }
+        else {
+            sb.append(time - 12);
+            sb.append(":00 PM");
+        }
+
+        weatherRecyclerList.add(new WeatherRecyclerModel(sb.toString(),temp));
+    }
+
+    private void addTemp() {
+        for (int i = 0; i<weatherRecyclerList.size(); i++) {
+            if (i == 0 || i == 3 || i == 6 || i == 9 || i == 12 || i == 15 || i == 18 || i == 21) {
+                weatherRecyclerList.get(i).setTemp(weatherRecyclerList.get(i).getTemp() + "°F");
+            } else if (i == 23 || i == 22) {
+                weatherRecyclerList.get(i).setTemp(weatherRecyclerList.get(21).getTemp());
+            } else if (i % 3 == 1) {
+                int below = Integer.parseInt(weatherRecyclerList.get(i-1).getTemp().replaceAll("[^\\d.]", ""));
+                int above = Integer.parseInt(weatherRecyclerList.get(i+2).getTemp().replaceAll("[^\\d.]", ""));
+                int difference = above - below;
+                double range = difference*.3333;
+                int finalTemp = (int) (below + range);
+                weatherRecyclerList.get(i).setTemp(finalTemp + "°F");
+            } else if (i % 3 == 2) {
+                int below = Integer.parseInt(weatherRecyclerList.get(i-2).getTemp().replaceAll("[^\\d.]", ""));
+                int above = Integer.parseInt(weatherRecyclerList.get(i+1).getTemp().replaceAll("[^\\d.]", ""));
+                int difference = above - below;
+                double range = difference*.6666;
+                int finalTemp = (int) (below + range);
+                weatherRecyclerList.get(i).setTemp(finalTemp + "°F");
             }
         }
     }

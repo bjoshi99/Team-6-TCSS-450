@@ -48,13 +48,13 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherRecy
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            time = itemView.findViewById(R.id.textView_hour1);
-            temp = itemView.findViewById(R.id.textView_temp1);
+            time = itemView.findViewById(R.id.textView_timeRec);
+            temp = itemView.findViewById(R.id.textView_tempRec);
         }
 
         public void setData( String time, String temp) {
             this.time.setText(time);
-            this.time.setText(temp);
+            this.temp.setText(temp);
         }
     }
 }

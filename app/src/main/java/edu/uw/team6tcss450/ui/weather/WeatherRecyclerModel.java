@@ -10,5 +10,7 @@ public class WeatherRecyclerModel {
 
     public String getTime() { return time; }
     public String getTemp() { return temp; }
+    public void setTime(String time) { this.time = time; }
+    public void setTemp(String temp) { this.temp = temp; }
 }
 
