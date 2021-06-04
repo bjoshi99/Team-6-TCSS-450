@@ -20,6 +20,11 @@
        app:layout_constraintTop_toTopOf="parent"
        app:layout_constraintStart_toStartOf="parent" />
 
+   <ImageView
+       android:layout_width="32dp"
+       android:layout_height="32dp"
+       />
+
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/recyclerview_contact"
        android:layout_width="match_parent"
@@ -30,6 +35,8 @@
        tools:context="edu.uw.tcss450.uiandnavigationlab.ui.contact.ContactFragment"
        tools:listitem="@layout/fragment_contact_card"
        />
+
+
 
 
 </FrameLayout>
