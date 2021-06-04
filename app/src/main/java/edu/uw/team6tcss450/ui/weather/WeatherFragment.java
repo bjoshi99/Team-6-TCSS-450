@@ -110,7 +110,7 @@ public class WeatherFragment extends Fragment {
         model.setZip(input);
 
         if (input.equals("")) {
-            binding.textViewMainCity.setText("City field cannot be empty!");
+//            binding.textViewMainCity.setText("City field cannot be empty!");
         } else {
             if (model.getWhatever()) {
                 tempurl = url + "?zip=" + input + "&appid=" + appid + "&units=imperial";
@@ -173,7 +173,7 @@ public class WeatherFragment extends Fragment {
         String tempurl = "";
 
         if (input.equals("")) {
-            binding.textViewMainTemp.setText("");
+//            binding.textViewMainTemp.setText("");
         } else {
             if (model.getWhatever()) {
                 tempurl = urlForecast + "?zip=" + input + "&appid=" + appid + "&units=imperial";
@@ -229,7 +229,7 @@ public class WeatherFragment extends Fragment {
         String tempurl = "";
 
         if (input.equals("")) {
-            binding.textViewMainDescription.setText("");
+//            binding.textViewMainDescription.setText("");
         } else {
             if (model.getWhatever()) {
                 tempurl = urlForecast + "?zip=" + input + "&appid=" + appid + "&units=imperial";
