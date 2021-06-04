@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private MainPushMessageReceiver mPushMessageReceiver;
     private NewMessageCountViewModel mNewMessageModel;
+    //for contact request
+    private HomeViewModel mHomeModel;
 
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
@@ -95,16 +97,24 @@ public class MainActivity extends AppCompatActivity {
 
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
 
+        mHomeModel = new ViewModelProvider(MainActivity.this)
+                        .get(HomeViewModel.class);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.chat_list_fragment) {
                 //When the user navigates to the chats page, reset the new message count.
                 //This will need some extra logic for your project as it should have
                 //multiple chat rooms.
                 mNewMessageModel.reset();
+
+                //delete chat notification from home
+//                mHomeModel.deleteMessageNotifications();
             }
             if (destination.getId() == R.id.navigation_contact) {
                 BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
                 badge.setVisible(false);
+
+                //delete contact notification from home
+//                mHomeModel.deleteContactNotifications();
             }
         });
         mNewMessageModel.addMessageCountObserver(this, count -> {
@@ -164,11 +174,6 @@ public class MainActivity extends AppCompatActivity {
                 new ViewModelProvider(MainActivity.this)
                         .get(ChatViewModel.class);
 
-        //for contact request
-        private HomeViewModel mHomeModel =
-                new ViewModelProvider(MainActivity.this)
-                    .get(HomeViewModel.class);
-
         private ContactModel mContactModel =
                 new ViewModelProvider(MainActivity.this)
                         .get(ContactModel.class);
@@ -189,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
 
                     //add to home for notification
                     mHomeModel.addNotification("New chat message from " + cm.getSender());
+                    mHomeModel.getViewAdapter().notifyDataSetChanged();
+
                 }
                 //Inform the view model holding chatroom messages of the new
                 //message.
@@ -214,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 mHomeModel.addNotification(msg);
-
+                mHomeModel.getViewAdapter().notifyDataSetChanged();
                 //to get name, substring from 25 to length
                 String name = (msg).substring(25);
 

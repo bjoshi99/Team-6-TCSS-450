@@ -268,8 +268,6 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 public Map<String, String> getHeaders() {
                     Map<String, String> headers = new HashMap<>();
                     headers.put("Authorization", model.getmJwt());
-                    System.out.println("********************************************************");
-                    System.out.println("Inside of the deleteMember server call.");
                     return headers;
                 }
             };

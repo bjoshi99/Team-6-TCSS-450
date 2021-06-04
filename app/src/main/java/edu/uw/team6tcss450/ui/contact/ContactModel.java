@@ -247,10 +247,10 @@ public class ContactModel extends AndroidViewModel {
                 String name = jsonObjectContact.getString("firstname")+ " " + jsonObjectContact.getString("lastname");
                 String email = jsonObjectContact.getString("email");
                 String nickName = jsonObjectContact.getString("username");
-                String memberId = jsonObjectContact.getString("memberId");
+                //String memberId = jsonObjectContact.getString("memberId");
 
                 Contact contact = new Contact.Builder(
-                        name, nickName, email, memberId
+                        name, nickName, email
                 ).build();
 
                 if(!isDuplicate(mSearchContact.getValue(), contact)){

@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.IntFunction;
 
@@ -30,7 +31,7 @@ import edu.uw.team6tcss450.ui.contact.ContactRecyclerViewAdapter;
 public class HomeViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<String>> mNotificationList;
-    private HomeRecyclerViewAdapter mViewAdapter;
+    public HomeRecyclerViewAdapter mViewAdapter;
 
     public HomeViewModel(@NonNull Application theApplication){
         super(theApplication);
@@ -78,6 +79,35 @@ public class HomeViewModel extends AndroidViewModel {
         mNotificationList.getValue().add(notification);
 
         mViewAdapter.notifyDataSetChanged();
+    }
+
+    public void deleteContactNotifications(){
+        for(String s : mNotificationList.getValue()){
+            if(s.contains("contact")){
+                mNotificationList.getValue().remove(s);
+            }
+        }
+    }
+
+    public void deleteMessageNotifications(){
+        for(String s : mNotificationList.getValue()){
+            if(s.contains("message")){
+                mNotificationList.getValue().remove(s);
+            }
+        }
+    }
+
+    public void deleteAll(){
+
+        mNotificationList.getValue().clear();
+
+        mViewAdapter.deleteAll();
+//        int size = mNotificationList.getValue().size();
+//        for(int i=0; i<size; i++) {
+//
+//            String s = mNotificationList.getValue().get(i);
+//            mNotificationList.getValue().remove(s);
+//        }
     }
 
     public void delete(String msg){
