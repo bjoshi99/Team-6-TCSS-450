@@ -11,8 +11,7 @@
     <color name="messageNotificationColor">#5A6DD8</color>
     <color name="contactReqNotificationColor">#9D65EA</color>
     <color name="grayHint">#888</color>
-    <color name="notPURPLEEEE">#CDCDCD</color>
-    <color name="idkWhatColorThisIs">#A4A4A4</color>
+    <color name="notPURPLEEEE">#B9D9EB</color>
 </resources>
 <!--<resources>-->
 <!--    <color name="purple_200">#FFBB86FC</color>-->

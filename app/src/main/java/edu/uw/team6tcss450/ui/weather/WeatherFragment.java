@@ -158,7 +158,7 @@ public class WeatherFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    binding.textViewMainCity.setText("Please enter a valid city.");
+                    binding.textViewMainCity.setText("Please enter a valid zip code.");
                     binding.imageViewMainIcon.setImageResource(0);
                 }
             });
@@ -204,6 +204,7 @@ public class WeatherFragment extends Fragment {
                                 addTo24HourForecast(Integer.parseInt(jsonObjectList.getString("dt_txt").substring(11, 13)) + j, "999");
                             }
                         }
+                        binding.recyclerView24Hour.setAlpha(1);
                         addTemp();
                         binding.recyclerView24Hour.setAdapter(new WeatherRecyclerViewAdapter(weatherRecyclerList));
                         binding.recyclerView24Hour.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -216,6 +217,7 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     binding.textViewMainTemp.setText("");
+                    binding.recyclerView24Hour.setAlpha(0);
                 }
             });
             RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());

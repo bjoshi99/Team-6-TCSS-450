@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@color/notPURPLEEEE">
 
         <TextView
             android:id="@+id/textView_timeRec"
@@ -36,6 +37,18 @@
             android:layout_marginBottom="12dp"
             android:text="69°F"
             android:textAlignment="center" />
+
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="@color/white">
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>
