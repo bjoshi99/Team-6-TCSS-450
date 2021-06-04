@@ -23,7 +23,8 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp"
             android:text="12:00 PM"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/grayHint" />
 
         <TextView
             android:id="@+id/textView_tempRec"
@@ -36,7 +37,8 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="12dp"
             android:text="69°F"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/grayHint" />
 
         <RelativeLayout
             android:layout_width="1dp"
