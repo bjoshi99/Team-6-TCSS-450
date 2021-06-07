@@ -145,47 +145,60 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         private void accept(View view) {
 
-            System.out.println("Clicked accept");
+            boolean flag = false;
 
-            String url =
-                    "https://tcss450-team6.herokuapp.com/contacts";
-
-            UserInfoViewModel model = new ViewModelProvider((MainActivity)(mView.getContext()))
-                    .get(UserInfoViewModel.class);
-
-            JSONObject body = new JSONObject();
-            try {
-                body.put("email", ct.getEmail());
-                body.put("verified", 1);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Request request = new JsonObjectRequest(
-                    Request.Method.POST,
-                    url,
-                    body,
-                    this::handleResult,
-                    this::handleError) {
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", model.getmJwt());
-                    return headers;
+            for(Contact c : mContact){
+                if(c.req != ct.req){
+                    flag = true;
+                    ContactRecyclerViewAdapter.this.notifyDataSetChanged();
+                    this.delete(ct);
+                    Toast.makeText(mView.getContext(), ct.getNickname() + "Friend Request Accepted", Toast.LENGTH_SHORT).show();
                 }
-            };
-            request.setRetryPolicy(new DefaultRetryPolicy(
-                    10_000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            Volley.newRequestQueue(mView.getContext())
-                    .add(request);
+                System.out.println("The email from mContact "+ c.getEmail() + c.req);
+                System.out.println("The email from ct " + ct.getEmail() + ct.req);
+            }
+            System.out.println("the flag is " + flag);
+            if(!flag){
+                System.out.println("Clicked accept");
 
+                String url =
+                        "https://tcss450-team6.herokuapp.com/contacts";
+
+                UserInfoViewModel model = new ViewModelProvider((MainActivity)(mView.getContext()))
+                        .get(UserInfoViewModel.class);
+
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("email", ct.getEmail());
+                    body.put("verified", 1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Request request = new JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        body,
+                        this::handleResult,
+                        this::handleError) {
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Authorization", model.getmJwt());
+                        return headers;
+                    }
+                };
+                request.setRetryPolicy(new DefaultRetryPolicy(
+                        10_000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                Volley.newRequestQueue(mView.getContext())
+                        .add(request);
+
+            }
         }
 
         private void handleResult(JSONObject jsonObject) {
-            //request is accepted
-            //count user as a friend
             ct.req = false;
             ContactRecyclerViewAdapter.this.notifyDataSetChanged();
             Toast.makeText(mView.getContext(), "Friend Request Accepted", Toast.LENGTH_SHORT).show();

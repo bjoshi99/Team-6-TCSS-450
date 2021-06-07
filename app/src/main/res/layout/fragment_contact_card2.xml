@@ -22,7 +22,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/cat1"
+                android:src="@drawable/ic_person_black_24dp"
                 android:id="@+id/picture_cat1"
                 >
             </ImageView>

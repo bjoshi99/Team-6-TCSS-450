@@ -159,7 +159,8 @@ public class ContactModel extends AndroidViewModel {
 
     private boolean isDuplicate(List<Contact> list, Contact contact){
         for(Contact c : list){
-            if(c.getEmail().equals(contact.getEmail()) && (c.req == contact.req)){
+            if((c.getEmail().equals(contact.getEmail()) && (c.req == contact.req)) ||
+            c.getName().equals(contact.getName()) && (c.req == contact.req)){
                 return true;
             }
         }
@@ -255,8 +256,11 @@ public class ContactModel extends AndroidViewModel {
 
                 if(!isDuplicate(mSearchContact.getValue(), contact)){
                     Log.i("TAG", "handleResult: does the contact added to the mContactList ? " + i);
-                    mSearchContact.getValue().add(contact);
+                    if(!isAlreadyFriend(mContactList.getValue(), contact)){
+                        mSearchContact.getValue().add(contact);
+                    }
                 }
+
 
                 mSearchContact.setValue(mSearchContact.getValue());
 
@@ -268,7 +272,15 @@ public class ContactModel extends AndroidViewModel {
 
     }
 
-
+private boolean isAlreadyFriend(List<Contact> list, Contact contact){
+    for(Contact c : list){
+        if((c.getEmail().equals(contact.getEmail()) && (c.req == contact.req)) ||
+                c.getName().equals(contact.getName()) && (c.req == contact.req)){
+            return true;
+        }
+    }
+    return false;
+}
 
 
 
