@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -162,11 +163,13 @@ public class ContactSearchRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
         }
 
         private void handleResult(JSONObject jsonObject) {
-            //request is accepted
-            //count user as a friend
-            mTheContact.req = false;
+
+            mTheContact.req = true;
             ContactSearchRecyclerViewAdapter.this.notifyDataSetChanged();
-            Toast.makeText(mView.getContext(), "Friend Request Accepted", Toast.LENGTH_SHORT).show();
+            mContact.clear();
+            Navigation.findNavController(mView).navigate(
+                    ContactSearchFragmentDirections.actionContactSearchFragment2ToNavigationContact()
+            );
         }
 
         private void handleError(final VolleyError error) {

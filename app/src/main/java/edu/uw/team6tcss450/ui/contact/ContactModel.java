@@ -76,6 +76,9 @@ public class ContactModel extends AndroidViewModel {
     private void handleError(final VolleyError theError) {
 
 //        handleResult(null);
+        mContactList.getValue().clear();
+        mContactList.setValue(new ArrayList<>());
+
         System.out.println("***********************************************************");
         System.out.println("Error : " + theError.toString());
     }
@@ -123,11 +126,18 @@ public class ContactModel extends AndroidViewModel {
     private void handleResult(final JSONObject theResult){
 
         try{
+            //System.out.println(" Before clearing " + mContactList.getValue().get(0).getEmail());
 
+            JSONArray jsonArrayContacts = theResult.getJSONArray("contacts");
+
+            if(jsonArrayContacts.length() == 0){
+                System.out.println("The messege from theResult is " + theResult.getString("message"));
+            }
+            //System.out.println("After clearing " +mContactList.getValue().get(0).getEmail());
             IntFunction<String> getString =
                     getApplication().getResources()::getString;
 
-            JSONArray jsonArrayContacts = theResult.getJSONArray("contacts");
+            System.out.println(jsonArrayContacts.length() + " this is the  length of json array.");
 
             for(int i = 0; i < jsonArrayContacts.length(); i++) {
 
@@ -159,7 +169,8 @@ public class ContactModel extends AndroidViewModel {
 
     private boolean isDuplicate(List<Contact> list, Contact contact){
         for(Contact c : list){
-            if(c.getEmail().equals(contact.getEmail()) && (c.req == contact.req)){
+            if((c.getEmail().equals(contact.getEmail()) && (c.req == contact.req)) ||
+            c.getName().equals(contact.getName()) && (c.req == contact.req)){
                 return true;
             }
         }
@@ -255,8 +266,11 @@ public class ContactModel extends AndroidViewModel {
 
                 if(!isDuplicate(mSearchContact.getValue(), contact)){
                     Log.i("TAG", "handleResult: does the contact added to the mContactList ? " + i);
-                    mSearchContact.getValue().add(contact);
+                    if(!isAlreadyFriend(mContactList.getValue(), contact)){
+                        mSearchContact.getValue().add(contact);
+                    }
                 }
+
 
                 mSearchContact.setValue(mSearchContact.getValue());
 
@@ -268,7 +282,15 @@ public class ContactModel extends AndroidViewModel {
 
     }
 
-
+private boolean isAlreadyFriend(List<Contact> list, Contact contact){
+    for(Contact c : list){
+        if((c.getEmail().equals(contact.getEmail()) && (c.req == contact.req)) ||
+                c.getName().equals(contact.getName()) && (c.req == contact.req)){
+            return true;
+        }
+    }
+    return false;
+}
 
 
 
