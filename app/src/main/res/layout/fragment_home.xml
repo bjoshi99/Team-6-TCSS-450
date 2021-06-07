@@ -97,7 +97,7 @@
                 android:id="@+id/RecyclerView_Home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

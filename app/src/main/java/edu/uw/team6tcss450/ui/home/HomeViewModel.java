@@ -76,9 +76,9 @@ public class HomeViewModel extends AndroidViewModel {
 
     public void addNotification(String notification){
 //        System.out.println("******************************** \n new notification \n  " + notification);
-        mNotificationList.getValue().add(notification);
-
-        mViewAdapter.notifyDataSetChanged();
+//        mNotificationList.getValue().add(0, notification);
+        System.out.println("added in view model and now moving to adpater");
+        mViewAdapter.addNotification(notification);
     }
 
     public void deleteContactNotifications(){
@@ -111,7 +111,9 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void delete(String msg){
-        for(String s : mNotificationList.getValue()){
+
+        for(int i = 0; i < mNotificationList.getValue().size(); i++){
+            String s = mNotificationList.getValue().get(i);
             if(msg.equals(s)){
                 mNotificationList.getValue().remove(msg);
             }

@@ -62,6 +62,42 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
         this.notifyDataSetChanged();
     }
 
+    public void addNotification(String notification){
+        System.out.println("******************************** \n new notification \n  ");
+
+        mNotificationList.add(0, notification);
+        this.notifyDataSetChanged();
+    }
+
+
+    public void deleteContactNotifications(){
+        int size = mNotificationList.size();
+        for(int i=0; i<mNotificationList.size(); i++){
+            if((mNotificationList.get(i)).contains("contact")){
+                mNotificationList.remove(i);
+                i--;
+            }
+        }
+        this.notifyDataSetChanged();
+    }
+
+    public void deleteChatNotification(){
+        System.out.println("Deleting all chat notification");
+        int size = mNotificationList.size();
+        for(int i=0; i<mNotificationList.size(); i++){
+            if((mNotificationList.get(i)).contains("message")){
+                mNotificationList.remove(i);
+                i--;
+            }
+        }
+        this.notifyDataSetChanged();
+
+        // 1 3 3 3 5 6 //6, 0
+        // 3 3 4 5 6 //5, 1
+        // 3 4 5 6 //4, 2
+        // 2 4 5 6
+    }
+
     @Override
     public int getItemCount() {
         return mNotificationList.size();

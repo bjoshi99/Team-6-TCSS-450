@@ -104,17 +104,17 @@ public class MainActivity extends AppCompatActivity {
                 //When the user navigates to the chats page, reset the new message count.
                 //This will need some extra logic for your project as it should have
                 //multiple chat rooms.
-                mNewMessageModel.reset();
+//                mNewMessageModel.reset();
 
                 //delete chat notification from home
-//                mHomeModel.deleteMessageNotifications();
+                mHomeModel.getViewAdapter().deleteChatNotification();
             }
             if (destination.getId() == R.id.navigation_contact) {
                 BadgeDrawable badge = binding.navView.getOrCreateBadge(R.id.navigation_contact);
                 badge.setVisible(false);
 
                 //delete contact notification from home
-//                mHomeModel.deleteContactNotifications();
+                mHomeModel.getViewAdapter().deleteContactNotifications();
             }
         });
         mNewMessageModel.addMessageCountObserver(this, count -> {
@@ -192,9 +192,13 @@ public class MainActivity extends AppCompatActivity {
                 if (nd.getId() != R.id.chatFragment) {
                     mNewMessageModel.increment();
 
+                    //add number for specific notification
+                    int ID =intent.getIntExtra("chatid", -1);
+                    mNewMessageModel.increment(ID);
+
                     //add to home for notification
                     mHomeModel.addNotification("New chat message from " + cm.getSender());
-                    mHomeModel.getViewAdapter().notifyDataSetChanged();
+//                    mHomeModel.getViewAdapter().notifyDataSetChanged();
 
                 }
                 //Inform the view model holding chatroom messages of the new

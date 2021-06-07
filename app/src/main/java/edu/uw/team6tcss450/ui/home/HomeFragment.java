@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private WeatherViewModel modelWeather;
     private HomeViewModel mHomeModel;
+    private View mView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +87,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         UserInfoViewModel model = new ViewModelProvider(getActivity())
                 .get(UserInfoViewModel.class);
+
+        mView = view;
 
         modelWeather = new ViewModelProvider(getActivity()).get(WeatherViewModel.class);
         grabWeatherDetails(modelWeather.getZip());
@@ -211,12 +214,21 @@ public class HomeFragment extends Fragment {
 //                    binding.textDescriptionHome.setText(outputDescription);
 
                     //without using binding objects
-                    ((TextView)(getView().findViewById(R.id.text_temp_home))).setText(outputTemp);
-                    ((TextView)(getView().findViewById(R.id.text_city_home))).setText(outputCityName);
-                    ((TextView)(getView().findViewById(R.id.text_minmax_home))).setText(outputMinMax);
-                    ((TextView)(getView().findViewById(R.id.text_humidity_home))).setText(outputHumidity);
-                    ((TextView)(getView().findViewById(R.id.text_wind_home))).setText(outputWindSpeed);
-                    ((TextView)(getView().findViewById(R.id.text_description_home))).setText(outputDescription);
+//                    ((TextView)(getView().findViewById(R.id.text_temp_home))).setText(outputTemp);
+//                    ((TextView)(getView().findViewById(R.id.text_city_home))).setText(outputCityName);
+//                    ((TextView)(getView().findViewById(R.id.text_minmax_home))).setText(outputMinMax);
+//                    ((TextView)(getView().findViewById(R.id.text_humidity_home))).setText(outputHumidity);
+//                    ((TextView)(getView().findViewById(R.id.text_wind_home))).setText(outputWindSpeed);
+//                    ((TextView)(getView().findViewById(R.id.text_description_home))).setText(outputDescription);
+
+                    //with new view object
+                    ((TextView)(mView.findViewById(R.id.text_temp_home))).setText(outputTemp);
+                    ((TextView)(mView.findViewById(R.id.text_city_home))).setText(outputCityName);
+                    ((TextView)(mView.findViewById(R.id.text_minmax_home))).setText(outputMinMax);
+                    ((TextView)(mView.findViewById(R.id.text_humidity_home))).setText(outputHumidity);
+                    ((TextView)(mView.findViewById(R.id.text_wind_home))).setText(outputWindSpeed);
+                    ((TextView)(mView.findViewById(R.id.text_description_home))).setText(outputDescription);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     }
