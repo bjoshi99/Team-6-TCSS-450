@@ -9,11 +9,11 @@
         android:id="@+id/button_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/button_search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.69"
+        app:layout_constraintHorizontal_bias="0.674"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,8 +21,8 @@
         android:id="@+id/editText_searchbar"
         android:layout_width="170dp"
         android:layout_height="44dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/text_enter_city"
         android:inputType="textPersonName"
@@ -31,335 +31,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="392dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour8"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/idkWhatColorThisIs"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayoutHour7"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/textView_hour8"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp8"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour8"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour7"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/notPURPLEEEE"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayoutHour6"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/textView_hour7"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp7"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour7"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour6"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/idkWhatColorThisIs"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayoutHour5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/textView_hour6"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp6"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour6"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour5"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/notPURPLEEEE"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayoutHour4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/textView_hour5"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp5"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour5"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour4"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/idkWhatColorThisIs"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayoutHour3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/textView_hour4"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp4"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour4"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour3"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/notPURPLEEEE"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayoutHour2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <TextView
-                android:id="@+id/textView_hour3"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp3"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour3"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour2"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/idkWhatColorThisIs"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayoutHour1"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/textView_hour2"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp2"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour2"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutHour1"
-            android:layout_width="49dp"
-            android:layout_height="67dp"
-            android:background="@color/notPURPLEEEE"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/textView_hour1"
-                android:layout_width="36dp"
-                android:layout_height="32dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="7dp"
-                android:text="12:00"
-                android:textAlignment="textStart" />
-
-            <TextView
-                android:id="@+id/textView_temp1"
-                android:layout_width="35dp"
-                android:layout_height="18dp"
-                android:layout_below="@+id/textView_hour1"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="69"
-                android:textAlignment="center" />
-        </RelativeLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="399dp"
         android:layout_height="256dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_24Hour">
 
         <RelativeLayout
             android:id="@+id/relativeLayout2"
@@ -661,7 +339,7 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="341dp"
         android:layout_height="186dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="22dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_searchbar">
@@ -712,7 +390,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -721,12 +399,23 @@
 
     <Button
         android:id="@+id/button_current"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="188dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
         android:text="Current Location"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_map" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_24Hour"
+        android:layout_width="385dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
